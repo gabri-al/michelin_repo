@@ -6,7 +6,8 @@
     "cluster_name": "Gab_MichelStar_Cluster",
     "spark_version": "14.3.x-cpu-ml-scala2.12",
     "spark_conf": {},
-    "node_type_id": "d3.2xlarge",
+    "node_type_id": "r5d.2xlarge",
+    "driver_node_type_id": "r5d.2xlarge",
     "ssh_public_keys": [],
     "custom_tags": {},
     "spark_env_vars": {
@@ -15,6 +16,7 @@
       "DATA_PATH":"https://raw.githubusercontent.com/plotly/datasets/master/michelin_by_Jerry_Ng.csv"
     },
     "autotermination_minutes": 80,
+    "enable_elastic_disk": true,
     "init_scripts": [
       {
         "volumes": {
