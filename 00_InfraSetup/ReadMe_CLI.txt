@@ -19,3 +19,18 @@ databricks secrets put-secret --json '{
   "string_value": ""
 }'
 ## to delete the secret: databricks secrets delete-secret michelin_scope pat_ga
+
+:: From a Notebook, we can verify if above exists
+# Check scope
+existing_scopes = [scope.name for scope in dbutils.secrets.listScopes()]
+if scope_name_ in existing_scopes:
+    print("Secret scope exists!")
+else:
+    print("Secret scope doesn't exist, create it via CLI!")
+
+# Check secret
+existing_secrets = [secret.key for secret in dbutils.secrets.list(scope_name_)]
+if secret_name_ in existing_secrets:
+    print("Secret exists!")
+else:
+    print("Secret doesn't exist, create it via CLI!")
