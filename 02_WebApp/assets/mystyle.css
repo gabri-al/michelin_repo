@@ -30,6 +30,9 @@ body {
     color: var(--blue-navy);
 }
 
+.page-content {
+    margin: 4rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
+}
 
 /* === NAV ===*/
 .nav-row {
@@ -43,7 +46,7 @@ body {
 }
 
 .nav-img {
-    margin: 0.5rem 0rem 0rem 0rem;
+    margin: 0.3rem 0rem 0rem 0rem;
     width: 30%;
 }
 

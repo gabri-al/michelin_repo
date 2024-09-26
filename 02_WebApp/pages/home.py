@@ -15,7 +15,7 @@ dash.register_page(__name__, path='/', name='Home', title='Michelin WebApp | Hom
 layout = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1("Title")
+            html.H1("Data Insights")
         ], width=12)
     ])
 ])

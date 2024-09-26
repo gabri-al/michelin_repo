@@ -18,7 +18,9 @@ app.layout = dbc.Container([
 	dbc.Row([
         dbc.Col([
             _nav
-        ], width = 12),
+        ], width = 12)
+    ]),
+    dbc.Row([
         dbc.Col([
             dash.page_container
 	    ], className = 'page-content', width = 12),
