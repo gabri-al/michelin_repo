@@ -11,7 +11,7 @@ dash.register_page(__name__, path='/', name='Home', title='Michelin WebApp | Hom
 ############################################################################################
 # Upload data
 import pandas as pd
-silver_df = pd.read_parquet('data/silver_data.parquet')
+silver_df = pd.read_parquet(f'data/silver_data.parquet')
 print(silver_df.head(2))
 
 ############################################################################################
