@@ -15,11 +15,13 @@ from assets.navbar import _nav
 ############################################################################################
 # App Layout
 app.layout = dbc.Container([
+	## Page Nav
 	dbc.Row([
         dbc.Col([
             _nav
         ], width = 12)
     ]),
+	## Page content
     dbc.Row([
         dbc.Col([
             dash.page_container

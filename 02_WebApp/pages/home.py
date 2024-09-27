@@ -34,7 +34,7 @@ map_test_.update_layout(title = 'Restaurants by Country')
 layout = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1("Data Insights")
+            html.H1("Data Insights", className='titles-h1')
         ], width=12)
     ]),
 

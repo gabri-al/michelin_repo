@@ -45,5 +45,16 @@ my_figlayout = go.Layout(
     margin = margin_style,
     xaxis = xaxis_style,
     yaxis = yaxis_style,
-    height = 380
+    height = 380,
+    # Map layout through geo parameter - https://plotly.com/python-api-reference/generated/plotly.graph_objects.layout.html#plotly.graph_objects.layout.Geo
+    geo=dict(
+        bgcolor='rgba(0,0,0,0)',  # Set to transparent
+        resolution=50,
+        showcoastlines=True,
+        showcountries=True,
+        showframe=False,
+        countrycolor='rgba(0,0,0,0.80%)',
+        coastlinecolor='rgba(0,0,0,0.35%)',
+        landcolor='rgba(0,0,0,0.35%)'
+    )
 )

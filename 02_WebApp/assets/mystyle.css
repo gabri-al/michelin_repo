@@ -10,12 +10,12 @@
 
 /* == COLOURS AS VARIABLES == */
 :root {
-    --fullpage-background-gradient-01: #f9f7f4; /*#FBDA61;*/
-    --fullpage-background-gradient-02: #c10341; /*#FF5ACD;*/
     --white: #f6f6f6;
     --blue-navy: #1b3139ff;
     --grey: #48565F;
     --dark-grey: #2C363B;
+    --dark-pink: #c10341;
+    --dark-red: #3F0716;
     --computerpage-font-size: 16px;
   }
 
@@ -26,23 +26,36 @@ body {
     height: 100%;
     overflow-x: hidden;
     font-size: var(--computerpage-font-size);
-    background-image: linear-gradient(45deg, var(--fullpage-background-gradient-01) 0%, var(--fullpage-background-gradient-02) 100%); /* https://cssgradient.io/gradient-backgrounds/ */
-    color: var(--dark-grey);
+    /*background-image: linear-gradient(45deg, var(--white) 0%, var(--dark-pink) 100%); https://cssgradient.io/gradient-backgrounds/ */
+    background-image: url("Img/Restaurant-img-03.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: var(--white);
+    overflow: hidden;
 }
 
 .page-content {
-    margin: 4rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
+    margin: 2.7rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
+    background-color: rgba(0,0,0,5.0%);
+    backdrop-filter: blur(10px);
+    height: 100vh;    
+}
+
+.titles-h1 {
+    color: var(--dark-pink);
 }
 
 /* === NAV ===*/
 .nav-row {
-    background-color: var(--dark-grey);
+    /*background-color: var(--blue-navy);*/
+    background-color: rgba(0,0,0,45.0%);
+    backdrop-filter: blur(100px);
     z-index: 100;
     position: fixed;
     top: 0%;
     width: 100%;
     color: var(--white);
-    box-shadow: 0rem 0rem 1.3rem var(--dark-greyy);
+    box-shadow: 0rem 0rem 0.3rem var(--dark-red);
 }
 
 .nav-img {
@@ -75,7 +88,7 @@ body {
 }
 
 .nav-a:active { /* When clicking on the link */
-    text-shadow: 0rem 0rem 0.25rem var(--white);
+    text-shadow: 0rem 0rem 0.25rem var(--dark-red);
 }
 
 
