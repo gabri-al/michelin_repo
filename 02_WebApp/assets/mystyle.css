@@ -10,11 +10,12 @@
 
 /* == COLOURS AS VARIABLES == */
 :root {
-    --fullpage-background-gradient-01: #FBDA61;
-    --fullpage-background-gradient-02: #FF5ACD;
-    --palette1-beige-01: #f0ece2; /* https://palettes.shecodes.io/palettes/691 */
+    --fullpage-background-gradient-01: #f9f7f4; /*#FBDA61;*/
+    --fullpage-background-gradient-02: #c10341; /*#FF5ACD;*/
     --white: #f6f6f6;
     --blue-navy: #1b3139ff;
+    --grey: #48565F;
+    --dark-grey: #2C363B;
     --computerpage-font-size: 16px;
   }
 
@@ -25,9 +26,8 @@ body {
     height: 100%;
     overflow-x: hidden;
     font-size: var(--computerpage-font-size);
-    background-color: #FBDA61;
-    background-image: linear-gradient(180deg, var(--fullpage-background-gradient-01) 0%, var(--fullpage-background-gradient-02) 100%); /* https://cssgradient.io/gradient-backgrounds/ */
-    color: var(--blue-navy);
+    background-image: linear-gradient(45deg, var(--fullpage-background-gradient-01) 0%, var(--fullpage-background-gradient-02) 100%); /* https://cssgradient.io/gradient-backgrounds/ */
+    color: var(--dark-grey);
 }
 
 .page-content {
@@ -36,18 +36,18 @@ body {
 
 /* === NAV ===*/
 .nav-row {
-    background-color: var(--blue-navy);
+    background-color: var(--dark-grey);
     z-index: 100;
     position: fixed;
     top: 0%;
     width: 100%;
     color: var(--white);
-    box-shadow: 0rem 0rem 1.3rem var(--blue-navy);
+    box-shadow: 0rem 0rem 1.3rem var(--dark-greyy);
 }
 
 .nav-img {
     margin: 0.3rem 0rem 0rem 0rem;
-    width: 30%;
+    width: 23%;
 }
 
 .nav-img-col {
@@ -78,3 +78,9 @@ body {
     text-shadow: 0rem 0rem 0.25rem var(--white);
 }
 
+
+/* === dcc.Graphh components ===*/
+.dash-graph.my-graph {
+    background-color: rgba(0,0,0,55.0%);
+    border-radius: 11px;
+}
