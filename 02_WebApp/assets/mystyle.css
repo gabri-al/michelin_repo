@@ -42,7 +42,9 @@ body {
 }
 
 .titles-h1 {
+    font-size: 3rem;
     color: var(--dark-pink);
+    font-weight: bold;
 }
 
 /* === NAV ===*/
@@ -89,11 +91,25 @@ body {
 
 .nav-a:active { /* When clicking on the link */
     text-shadow: 0rem 0rem 0.25rem var(--dark-red);
+}   
+
+/* === Graph style on CSS ===*/
+.titles-h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
 }
 
+.charts-p {
+    font-size: 0.8rem;
+    font-style: italic;
+}
 
-/* === dcc.Graphh components ===*/
-.dash-graph.my-graph {
+.chart-div {
     background-color: rgba(0,0,0,55.0%);
     border-radius: 11px;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.dash-default-spinner > div { /* Loading component */
+    background-image: radial-gradient(circle at 0% 0.5%, rgb(241, 241, 242) 0.1%, rgb(224, 226, 228) 100.2%)
 }

@@ -15,10 +15,10 @@ font_style = {
 }
 
 margin_style = {
-    'b': 25,
-    'l': 20,
-    'r': 15,
-    't': 45,
+    'b': 10,
+    'l': 10,
+    'r': 10,
+    't': 10,
     'pad': 0
 }
 
@@ -57,4 +57,14 @@ my_figlayout = go.Layout(
         coastlinecolor='rgba(0,0,0,0.35%)',
         landcolor='rgba(0,0,0,0.35%)'
     )
+)
+
+# Stile of the color sidebar on choropleth maps - https://plotly.com/python-api-reference/generated/plotly.graph_objects.choropleth.html?highlight=choropleth#module-plotly.graph_objects.choropleth 
+my_colorbar = go.choropleth.ColorBar(
+    thickness=4,
+    orientation = 'h',
+    x = 0.5,
+    y = -0.1,
+    len = 0.5,
+    tickfont=dict(size=10)
 )
