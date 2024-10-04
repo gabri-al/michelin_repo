@@ -13,7 +13,8 @@
 :root {
     --white: #f6f6f6;
     --blue-navy: #1b3139ff;
-    --grey: #48565F;
+    /* --grey: #48565F; */
+    --grey: #999;
     --dark-grey: #2C363B;
     --dark-pink: #c10341;
     --dark-red: #3F0716;
@@ -32,18 +33,16 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     color: var(--white);
-    overflow: hidden;
 }
 
 .page-content {
-    margin: 2.7rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
+    margin: 3rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
     background-color: rgba(0,0,0,5.0%);
     backdrop-filter: blur(10px);
-    height: 100vh;    
 }
 
 .titles-h1 {
-    font-size: 3rem;
+    font-size: 2.7rem;
     color: var(--dark-pink);
     font-weight: bold;
 }
@@ -57,6 +56,7 @@ body {
     position: fixed;
     top: 0%;
     width: 100%;
+    height: 3rem;
     color: var(--white);
     box-shadow: 0rem 0rem 0.3rem var(--dark-red);
 }
@@ -94,21 +94,58 @@ body {
     text-shadow: 0rem 0rem 0.25rem var(--dark-red);
 }   
 
+/* === Filtering elements ===*/
+.filter-div {
+    font-size: .8rem;
+    border-radius: 11px;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;    
+}
+
+.filter-p {
+    font-weight: bold;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.Select-control, .Select-menu-outer {
+    background-color: var(--dark-grey) !important;
+    border-width: 1px;
+    border-color: var(--dark-red) !important;
+    font-size: .8rem;
+  }
+
+.Select-value-icon, .Select-value-label, .Select-value {
+    font-size: .7rem;
+    color: var(--grey) !important;
+    border-color: var(--grey) !important;
+}
+
+
 /* === Graph style on CSS ===*/
 .titles-h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: bold;
 }
 
 .charts-p {
     font-size: 0.8rem;
     font-style: italic;
+    margin: 0rem 0rem 0rem 0rem;
+}
+
+.charts-i {
+    text-align: right;
+    margin: 0rem 0.5rem 0rem 0rem;
 }
 
 .chart-div {
     background-color: rgba(0,0,0,55.0%);
     border-radius: 11px;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.chart-row {
+    margin-bottom: 0.4rem;
 }
 
 .dash-default-spinner > div { /* Loading component */

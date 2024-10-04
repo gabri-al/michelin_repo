@@ -9,9 +9,16 @@ colorscale_ = [[0.0, colorscale_min],
                [1.0, colorscale_max]]
 #colorscale_ = 'reds' # Other cool options: brwnyl, rdpu, sunset, amp, dense, matter - https://plotly.com/python/colorscales/
 
+###### COLOURS
+chart_colours_ = {
+    'dark-red' : '#3F0716',
+    'dark-pink' : '#c10341',
+    'white' : '#f6f6f6'
+}
+
 ###### FIG LAYOUT
 font_style = {
-    'color' : '#f6f6f6'
+    'color' : chart_colours_['white']
 }
 
 margin_style = {
@@ -26,7 +33,11 @@ xaxis_style = {
     'linewidth' : 1,
     'linecolor' : 'rgba(0, 0, 0, 0.35%)',
     'showgrid' : False,
-    'zeroline' : False
+    'zeroline' : False,
+    'tickangle' : 315,
+    'tickfont' : {
+        'size' : 9
+    }
 }
 
 yaxis_style = {
