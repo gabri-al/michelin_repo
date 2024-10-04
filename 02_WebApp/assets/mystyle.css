@@ -1,10 +1,11 @@
-/* === ANY ELEMENT OVERRIDE ===*/
+/* === ANY ELEMENT OVERRIDE === */
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /*font-family: 'Arial', sans-serif;*/
     font-family: 'Lato', sans-serif;
 }
 
