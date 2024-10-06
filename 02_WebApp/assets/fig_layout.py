@@ -13,7 +13,12 @@ colorscale_ = [[0.0, colorscale_min],
 chart_colours_ = {
     'dark-red' : '#3F0716',
     'dark-pink' : '#c10341',
-    'white' : '#f6f6f6'
+    'white' : '#f6f6f6',
+    'gradient-red-01': '#ECD6DB',
+    'gradient-red-02': '#D89CA9',
+    'gradient-red-03': '#B22846',
+    'gradient-red-04': '#78192E',
+    'gradient-red-05': '#400C1A'
 }
 
 ###### FIG LAYOUT

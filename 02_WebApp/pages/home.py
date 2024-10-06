@@ -63,8 +63,19 @@ layout = dbc.Container([
                         children = dcc.Graph(id = 'fig-r2c1'))
             ], className = 'chart-div')
         ], width = 12)
+    ], className = 'chart-row'),
 
-    ], className = 'chart-row')
+    ## Hist on Row 3
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.H2(id='title-r3c1', className='titles-h2'),
+                html.P(id='p-r3c1', className = 'charts-p'),
+                dcc.Loading(id='loading_r3c1', type='default',
+                        children = dcc.Graph(id = 'fig-r3c1'))
+            ], className = 'chart-div')
+        ], width = 12)
+    ], className = 'chart-row'),
 
 ])
 
@@ -84,6 +95,10 @@ layout = dbc.Container([
     Output(component_id='title-r2c1', component_property='children'),
     Output(component_id='p-r2c1', component_property='children'),
     Output(component_id='fig-r2c1', component_property='figure'),
+    # Outputs for Row 3, Col 1
+    Output(component_id='title-r3c1', component_property='children'),
+    Output(component_id='p-r3c1', component_property='children'),
+    Output(component_id='fig-r3c1', component_property='figure'),    
     # Inputs
     Input(component_id='country-dropdown', component_property='value'),
     Input(component_id='cuisine-dropdown', component_property='value'),
@@ -102,6 +117,8 @@ def plot_data(_countries, _cuisines, _awards, _prices):
     # print(len(plot_df))
 
     ## Generate map Row1 Col1
+    title_r1c1 = 'Restaurants by country'
+    p_r1c1 = 'Michelin guide entries count by country'    
     map_df = plot_df.groupby(plot_df['Country']).agg(Res_count = ('Res_ID', 'count')).reset_index()
     fig_r1c1 = go.Figure(
                 layout=my_figlayout,
@@ -113,10 +130,10 @@ def plot_data(_countries, _cuisines, _awards, _prices):
                     colorbar = my_colorbar
                 )
         )
-    title_r1c1 = 'Restaurants per country'
-    p_r1c1 = 'Michelin guide entries count per country'
 
     ## Generate map Row1 Col2
+    title_r1c2 = 'Stars by country'
+    p_r1c2 = 'Sum of Michelin Stars by country'    
     map_df = plot_df.groupby(plot_df['Country']).agg(Star_sum = ('Stars_score', 'sum')).reset_index()
     fig_r1c2 = go.Figure(
                 layout=my_figlayout,
@@ -128,10 +145,41 @@ def plot_data(_countries, _cuisines, _awards, _prices):
                     colorbar = my_colorbar
                 )
         )
-    title_r1c2 = 'Stars per country'
-    p_r1c2 = 'Sum of Michelin Stars per country'
 
     ## Generate histogram Row2 Col1
+    title_r2c1 = 'Popular Cuisines'
+    p_r2c1 = 'Count of Restaurants by Awards and Cuisine - Showing top 50 cuisines'
+    data_grouped = plot_df.groupby(['Cuisine_l1', 'Award']).agg(Count = ('Res_ID', 'count')).reset_index()
+    data_grouped = data_grouped.pivot(columns = 'Award', index = 'Cuisine_l1', values = 'Count').fillna(0.).reset_index()
+    zeros_ = [0.] * len(data_grouped)
+    columns_ = ['Selected Restaurants', 'Bib Gourmand', '1 Star', '2 Stars', '3 Stars']
+    for c in columns_:
+        if c not in data_grouped.columns:
+            data_grouped[c] = zeros_
+    data_grouped['Restaurant_count'] = data_grouped['1 Star'] + data_grouped['2 Stars'] + data_grouped['3 Stars'] + data_grouped['Bib Gourmand'] + data_grouped['Selected Restaurants']
+    data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False)
+    data_grouped = data_grouped.iloc[:50]
+    fig_r2c1 = go.Figure(layout=my_figlayout)
+    fig_r2c1_traces = dict() # Dictionary with traces names and colours
+    for i in enumerate(columns_):
+        fig_r2c1_traces[i[1]] = 'gradient-red-0' + str( i[0] + 1 )
+    for key, value in fig_r2c1_traces.items():
+        fig_r2c1.add_trace(
+            go.Histogram(
+                x=data_grouped['Cuisine_l1'],
+                y=data_grouped[key],
+                marker_color=chart_colours_[value],
+                histfunc="sum",
+                name=key)
+        )
+    fig_r2c1.update_layout(
+        bargap=.6, # gap between bars of adjacent location coordinates
+        barmode='stack'
+    )
+
+    ## Generate histogram Row3 Col1
+    title_r3c1 = 'Stars Propensity by Cuisine'
+    p_r3c1 = 'Sum of Stars over Nr. of Restaurants, by cuisine'
     data_grouped = plot_df.groupby(plot_df['Cuisine_l1']).agg(Stars_count = ('Stars_score', 'sum'),
                                                               Restaurant_count = ('Res_ID', 'count')).reset_index()
     data_grouped['Star Ratio'] = data_grouped['Stars_count'] / data_grouped['Restaurant_count']
@@ -145,8 +193,8 @@ def plot_data(_countries, _cuisines, _awards, _prices):
                             "<i>Stars/Restaurant Ratio</i>: {:.2%}"+
                             "<extra></extra>").format(row['Cuisine_l1'], row['Restaurant_count'], row['Stars_count'], row['Star Ratio']))
     data_grouped['Hovertemplate'] = hover_text
-    fig_r2c1 = go.Figure(layout=my_figlayout)
-    fig_r2c1.add_trace(
+    fig_r3c1 = go.Figure(layout=my_figlayout)
+    fig_r3c1.add_trace(
         go.Histogram(
             x=data_grouped['Cuisine_l1'],
             y=data_grouped['Star Ratio'],
@@ -155,12 +203,16 @@ def plot_data(_countries, _cuisines, _awards, _prices):
             name='Stars/Restaurants',
             hovertemplate = data_grouped['Hovertemplate'])
     )
-    fig_r2c1.update_layout(
+    fig_r3c1.update_layout(
         bargap=.6, # gap between bars of adjacent location coordinates
     )
-    title_r2c1 = 'Stars Propensity by Cuisine'
-    p_r2c1 = 'Sum of Stars over Nr. of Restaurants per cuisine'
+
+    ## Generate histogram Row4 Col1
+    title_r4c1 = 'Price ratio by Cuisine'
+    p_r4c1 = 'Percentage of Restaurants in each Price category, by cuisine'
+
 
     return (title_r1c1, p_r1c1, fig_r1c1, 
             title_r1c2, p_r1c2, fig_r1c2,
-            title_r2c1, p_r2c1, fig_r2c1)
+            title_r2c1, p_r2c1, fig_r2c1,
+            title_r3c1, p_r3c1, fig_r3c1)

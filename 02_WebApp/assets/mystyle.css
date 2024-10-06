@@ -16,8 +16,13 @@
     /* --grey: #48565F; */
     --grey: #999;
     --dark-grey: #2C363B;
-    --dark-pink: #c10341;
     --dark-red: #3F0716;
+    --dark-pink: #c10341;
+    --gradient-red-01: #ECD6DB;
+    --gradient-red-02: #D89CA9;
+    --gradient-red-03: #B22846;
+    --gradient-red-04: #78192E;
+    --gradient-red-05: #400C1A;
     --computerpage-font-size: 16px;
   }
 
