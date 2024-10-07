@@ -119,6 +119,10 @@ body {
     font-size: .8rem;
   }
 
+.Select-input > input {
+    color: var(--grey) !important;
+}
+
 .Select-value-icon, .Select-value-label, .Select-value {
     font-size: .7rem;
     color: var(--grey) !important;

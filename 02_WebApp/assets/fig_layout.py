@@ -84,3 +84,10 @@ my_colorbar = go.choropleth.ColorBar(
     len = 0.5,
     tickfont=dict(size=10)
 )
+
+my_legend = {
+    "font" : {"size": 9},
+    "orientation" : "h",
+    "x" : 0.60,
+    "y" : 1.10,
+}

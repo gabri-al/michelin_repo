@@ -8,7 +8,7 @@ dash.register_page(__name__, path='/', name='Home', title='Michelin WebApp | Hom
 
 ############################################################################################
 # Import functions, settings
-from assets.fig_layout import my_figlayout, colorscale_, my_colorbar, chart_colours_
+from assets.fig_layout import my_figlayout, colorscale_, my_colorbar, chart_colours_, my_legend
 from assets.filterbar import _filters, _value_for_any
 
 ############################################################################################
@@ -77,6 +77,18 @@ layout = dbc.Container([
         ], width = 12)
     ], className = 'chart-row'),
 
+    ## Hist on Row 4
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.H2(id='title-r4c1', className='titles-h2'),
+                html.P(id='p-r4c1', className = 'charts-p'),
+                dcc.Loading(id='loading_r4c1', type='default',
+                        children = dcc.Graph(id = 'fig-r4c1'))
+            ], className = 'chart-div')
+        ], width = 12)
+    ], className = 'chart-row'),
+
 ])
 
 ### PAGE CALLBACKS ###############################################################################################################
@@ -98,7 +110,11 @@ layout = dbc.Container([
     # Outputs for Row 3, Col 1
     Output(component_id='title-r3c1', component_property='children'),
     Output(component_id='p-r3c1', component_property='children'),
-    Output(component_id='fig-r3c1', component_property='figure'),    
+    Output(component_id='fig-r3c1', component_property='figure'),   
+    # Outputs for Row 4, Col 1
+    Output(component_id='title-r4c1', component_property='children'),
+    Output(component_id='p-r4c1', component_property='children'),
+    Output(component_id='fig-r4c1', component_property='figure'),        
     # Inputs
     Input(component_id='country-dropdown', component_property='value'),
     Input(component_id='cuisine-dropdown', component_property='value'),
@@ -157,8 +173,7 @@ def plot_data(_countries, _cuisines, _awards, _prices):
         if c not in data_grouped.columns:
             data_grouped[c] = zeros_
     data_grouped['Restaurant_count'] = data_grouped['1 Star'] + data_grouped['2 Stars'] + data_grouped['3 Stars'] + data_grouped['Bib Gourmand'] + data_grouped['Selected Restaurants']
-    data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False)
-    data_grouped = data_grouped.iloc[:50]
+    data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False).iloc[:50]
     fig_r2c1 = go.Figure(layout=my_figlayout)
     fig_r2c1_traces = dict() # Dictionary with traces names and colours
     for i in enumerate(columns_):
@@ -174,17 +189,18 @@ def plot_data(_countries, _cuisines, _awards, _prices):
         )
     fig_r2c1.update_layout(
         bargap=.6, # gap between bars of adjacent location coordinates
-        barmode='stack'
+        barmode='stack',
+        legend = my_legend,
     )
 
     ## Generate histogram Row3 Col1
     title_r3c1 = 'Stars Propensity by Cuisine'
-    p_r3c1 = 'Sum of Stars over Nr. of Restaurants, by cuisine'
+    p_r3c1 = 'Sum of Stars over Nr. of Restaurants, by cuisine - Showing top 50 cuisines and cuisines represented by min 5 restaurants'
     data_grouped = plot_df.groupby(plot_df['Cuisine_l1']).agg(Stars_count = ('Stars_score', 'sum'),
                                                               Restaurant_count = ('Res_ID', 'count')).reset_index()
     data_grouped['Star Ratio'] = data_grouped['Stars_count'] / data_grouped['Restaurant_count']
-    data_grouped = data_grouped.loc[(data_grouped['Star Ratio'] >= 0.03) & (data_grouped['Restaurant_count'] >= 5), :] # Filter outliers
-    data_grouped = data_grouped.sort_values(by = 'Star Ratio', ascending = False) # Filter outliers
+    data_grouped = data_grouped.loc[data_grouped['Restaurant_count'] >= 5, :] # Filter outliers
+    data_grouped = data_grouped.sort_values(by = 'Star Ratio', ascending = False).iloc[:50]
     hover_text=[]
     for idx, row in data_grouped.iterrows():
         hover_text.append(("<i>Cuisine</i>: {}<br>"+
@@ -211,8 +227,55 @@ def plot_data(_countries, _cuisines, _awards, _prices):
     title_r4c1 = 'Price ratio by Cuisine'
     p_r4c1 = 'Percentage of Restaurants in each Price category, by cuisine'
 
+    data_grouped = plot_df.groupby(['Cuisine_l1', 'Price_score']).agg(Count = ('Res_ID', 'count')).reset_index()
+    data_grouped = data_grouped.pivot(columns = 'Price_score', index = 'Cuisine_l1', values = 'Count').fillna(0.).reset_index()
+    zeros_ = [0.] * len(data_grouped)
+    columns_ = ['$', '$$', '$$$', '$$$$']
+    data_grouped = data_grouped.rename(columns = {i+1: columns_[i] for i in range(4)})
+    for c in columns_:
+        if c not in data_grouped.columns:
+            data_grouped[c] = zeros_
+    for c in columns_:
+        data_grouped[c] = data_grouped[c].astype(int)            
+    data_grouped['Restaurant_count'] = (data_grouped['$'] + data_grouped['$$'] + data_grouped['$$$'] + data_grouped['$$$$']).astype(int)
+    for c in columns_:
+        data_grouped[c+' Ratio'] = data_grouped[c] / data_grouped['Restaurant_count']
+    hover_text=[]
+    for idx, row in data_grouped.iterrows():
+        hover_text.append(("<i>Cuisine</i>: {}<br>"+
+                           "<i>Restaurants Count</i>: {}<br>"+
+                           "<i>$ Restaurants</i>: {}  ({:.2%})<br>"+
+                           "<i>$$ Restaurants</i>: {}  ({:.2%})<br>"+
+                           "<i>$$$ Restaurants</i>: {}  ({:.2%})<br>"+
+                           "<i>$$$$ Restaurants</i>: {}  ({:.2%})<br>"+
+                           "<extra></extra>").format(row['Cuisine_l1'], row['Restaurant_count'], row['$'], row['$ Ratio'], row['$$'], row['$$ Ratio'],
+                                                     row['$$$'], row['$$$ Ratio'], row['$$$$'], row['$$$$ Ratio']))
+    data_grouped['Hovertemplate'] = hover_text        
+    data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False).iloc[:50]
+    #print(data_grouped.head())
+    fig_r4c1 = go.Figure(layout=my_figlayout)
+    fig_r4c1_traces = dict() # Dictionary with traces names and colours
+    for i in enumerate(columns_):
+        fig_r4c1_traces[i[1] + ' Ratio'] = 'gradient-red-0' + str( i[0] + 2 )
+    for key, value in fig_r4c1_traces.items():
+        fig_r4c1.add_trace(
+            go.Histogram(
+                x=data_grouped['Cuisine_l1'],
+                y=data_grouped[key],
+                marker_color=chart_colours_[value],
+                histfunc="sum",
+                name=key,
+                hovertemplate = data_grouped['Hovertemplate'])
+        )
+    fig_r4c1.update_layout(
+        bargap=.6, # gap between bars of adjacent location coordinates
+        barmode='stack',
+        legend = my_legend,
+    )
+
 
     return (title_r1c1, p_r1c1, fig_r1c1, 
             title_r1c2, p_r1c2, fig_r1c2,
             title_r2c1, p_r2c1, fig_r2c1,
-            title_r3c1, p_r3c1, fig_r3c1)
+            title_r3c1, p_r3c1, fig_r3c1,
+            title_r4c1, p_r4c1, fig_r4c1)
