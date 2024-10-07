@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
 
-dash.register_page(__name__, path='/', name='Home', title='Michelin WebApp | Home')
+dash.register_page(__name__, path='/', name='Insights', title='Michelin WebApp | Insights')
 
 ############################################################################################
 # Import functions, settings
@@ -88,6 +88,18 @@ layout = dbc.Container([
             ], className = 'chart-div')
         ], width = 12)
     ], className = 'chart-row'),
+
+    ## Maps on Row 5
+     dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.H2(id='title-r5c1', className='titles-h2'),
+                html.P(id='p-r5c1', className = 'charts-p'),
+                dcc.Loading(id='loading_r5c1', type='default',
+                        children = dcc.Graph(id = 'fig-r5c1'))
+            ], className = 'chart-div')
+        ], width = 12)
+    ], className = 'chart-row'),       
 
 ])
 
@@ -272,6 +284,20 @@ def plot_data(_countries, _cuisines, _awards, _prices):
         barmode='stack',
         legend = my_legend,
     )
+
+    ## Generate map Row5 Col1
+    title_r5c1 = 'Restaurants Overview'
+    p_r5c1 = ''
+    fig_r5c1 = go.Figure(
+                layout=my_figlayout,
+                data=go.Choropleth(
+                    locations=map_df['Country'],  # Spatial coordinates
+                    z=map_df['Res_count'],  # Data to be color-coded
+                    locationmode='country names', 
+                    colorscale=colorscale_,  # Color scale for the map
+                    colorbar = my_colorbar
+                )
+        )    
 
 
     return (title_r1c1, p_r1c1, fig_r1c1, 
