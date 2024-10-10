@@ -157,7 +157,7 @@ def plot_data(_countries):
 )
 def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     ## Filter data
-    center_map = True; zoomed = 1.50
+    center_map = True; zoomed = 1.50; extra_zoomed = zoomed + 10
     if _value_for_any in _countries:
         _countries = list(silver_df['Country'].unique())
         center_map = False
@@ -181,7 +181,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                 )
         )
     if center_map:
-        fig_r1c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed + 20})
+        fig_r1c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": extra_zoomed})
 
     ## Generate map Row1 Col1
     title_r2c1 = 'Restaurants by country'
