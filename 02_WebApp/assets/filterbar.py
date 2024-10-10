@@ -20,6 +20,9 @@ _Prices = [
     {'label': '$$$', 'value': 3},
     {'label': '$$$$', 'value': 4}
 ]
+_Cities = list(silver_df['City'].unique())
+_Cities.append(_value_for_any)
+_Cities.sort()
 
 ######################## Define filters
 
@@ -33,6 +36,15 @@ _filters = html.Div([
             ], width = 10),
             dbc.Col([], width = 1),
     ]),
+    # City
+    dbc.Row([
+            dbc.Col([html.P(["Select city:"], className = 'filter-p')], width = 1),
+            dbc.Col([
+                dcc.Dropdown(options=_Cities, value=[_value_for_any], searchable=True, persistence=True, 
+                        persistence_type='session', id='city-dropdown', multi=True)
+            ], width = 10),
+            dbc.Col([], width = 1),
+    ]),    
     # Cuisine Filter
     dbc.Row([
             dbc.Col([html.P(["Select cuisine:"], className = 'filter-p')], width = 1),

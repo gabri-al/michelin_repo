@@ -71,7 +71,8 @@ my_figlayout = go.Layout(
         showframe=False,
         countrycolor='rgba(0,0,0,0.80%)',
         coastlinecolor='rgba(0,0,0,0.35%)',
-        landcolor='rgba(0,0,0,0.35%)'
+        landcolor='rgba(0,0,0,0.35%)',
+        projection = {"scale": 1.10} # Default Zoom
     )
 )
 
@@ -88,6 +89,10 @@ my_colorbar = go.choropleth.ColorBar(
 my_legend = {
     "font" : {"size": 9},
     "orientation" : "h",
-    "x" : 0.60,
+    "x" : 0.70,
     "y" : 1.10,
 }
+
+# Function that, given the filtered df, it returns the average Latitude and Longitude to center the map
+def center_map_on_data(df_):
+    return [df_['Latitude'].mean(), df_['Longitude'].mean()]
