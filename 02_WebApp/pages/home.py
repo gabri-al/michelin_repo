@@ -124,6 +124,10 @@ def plot_data(_countries):
 
 # Update figs
 @callback(
+    # Outputs for Row 1, Col 1
+    Output(component_id='title-r1c1', component_property='children'),
+    Output(component_id='p-r1c1', component_property='children'),
+    Output(component_id='fig-r1c1', component_property='figure'),
     # Outputs for Row 2, Col 1
     Output(component_id='title-r2c1', component_property='children'),
     Output(component_id='p-r2c1', component_property='children'),
@@ -153,13 +157,12 @@ def plot_data(_countries):
 )
 def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     ## Filter data
-    center_map = True
+    center_map = True; zoomed = 1.50
     if _value_for_any in _countries:
         _countries = list(silver_df['Country'].unique())
         center_map = False
     if _value_for_any in _cities:
-        _cities = list(silver_df['City'].unique())        
-        center_map = False
+        _cities = list(silver_df['City'].unique())
     if _value_for_any in _cuisines:
         _cuisines = list(silver_df['Cuisine'].unique())
     plot_df = silver_df.loc[
@@ -168,20 +171,17 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     # print(len(plot_df))
 
     ## Generate main Scatter Map Row1 Col1
-    """
     title_r1c1 = 'Restaurants Overview'
     p_r1c1 = ''
     fig_r1c1 = go.Figure(
                 layout=my_figlayout,
-                data=go.Choropleth(
-                    locations=map_df['Country'],  # Spatial coordinates
-                    z=map_df['Res_count'],  # Data to be color-coded
-                    locationmode='country names', 
-                    colorscale=colorscale_,  # Color scale for the map
-                    colorbar = my_colorbar
+                data = go.Scattergeo( # https://plotly.com/python/scatter-plots-on-maps/
+                    lat = plot_df['Latitude'],
+                    lon = plot_df['Longitude'],
                 )
-        )    
-    """
+        )
+    if center_map:
+        fig_r1c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed + 20})
 
     ## Generate map Row1 Col1
     title_r2c1 = 'Restaurants by country'
@@ -198,7 +198,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                 )
         )
     if center_map:
-        fig_r2c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+        fig_r2c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed})
 
     ## Generate map Row1 Col2
     title_r2c2 = 'Stars by country'
@@ -215,7 +215,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                 )
         )
     if center_map:
-        fig_r2c2.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+        fig_r2c2.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed})
 
     ## Generate histogram Row3 Col1
     title_r3c1 = 'Popular Cuisines'
@@ -328,7 +328,8 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
         legend = my_legend,
     )
 
-    return (title_r2c1, p_r2c1, fig_r2c1, 
+    return (title_r1c1, p_r1c1, fig_r1c1,
+            title_r2c1, p_r2c1, fig_r2c1, 
             title_r2c2, p_r2c2, fig_r2c2,
             title_r3c1, p_r3c1, fig_r3c1,
             title_r4c1, p_r4c1, fig_r4c1,
