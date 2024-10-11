@@ -8,7 +8,7 @@ dash.register_page(__name__, path='/', name='Insights', title='Michelin WebApp |
 
 ############################################################################################
 # Import functions, settings
-from assets.fig_layout import my_figlayout, colorscale_, my_colorbar, chart_colours_, my_legend, center_map_on_data
+from assets.fig_layout import my_figlayout, my_fig_geo, colorscale_, my_colorbar, chart_colours_, my_legend, center_map_on_data
 from assets.filterbar import _filters, _value_for_any
 
 ############################################################################################
@@ -174,12 +174,15 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     title_r1c1 = 'Restaurants Overview'
     p_r1c1 = ''
     fig_r1c1 = go.Figure(
-                layout=my_figlayout,
-                data = go.Scattergeo( # https://plotly.com/python/scatter-plots-on-maps/
+                layout = my_figlayout,
+                data = go.Scattermap( # https://plotly.com/python/scatter-plots-on-maps/ -- Or using Scattergeo
                     lat = plot_df['Latitude'],
                     lon = plot_df['Longitude'],
+                    mode='markers',
+                    marker=dict(size=10, color='blue')
                 )
-        )
+    )
+    fig_r1c1.update_geos(my_fig_geo)
     if center_map:
         fig_r1c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": extra_zoomed})
 
@@ -197,6 +200,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                     colorbar = my_colorbar
                 )
         )
+    fig_r2c1.update_geos(my_fig_geo)
     if center_map:
         fig_r2c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed})
 
@@ -214,6 +218,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                     colorbar = my_colorbar
                 )
         )
+    fig_r2c2.update_geos(my_fig_geo)
     if center_map:
         fig_r2c2.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed})
 
