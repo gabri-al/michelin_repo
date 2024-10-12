@@ -18,7 +18,9 @@ chart_colours_ = {
     'gradient-red-02': '#D89CA9',
     'gradient-red-03': '#B22846',
     'gradient-red-04': '#78192E',
-    'gradient-red-05': '#400C1A'
+    'gradient-red-05': '#400C1A',
+    'grey': '#999',
+    'dark-grey': '#2C363B',
 }
 
 ###### FIG LAYOUT
@@ -78,6 +80,29 @@ my_fig_geo = dict(
     landcolor='rgba(244, 241, 215, 0.70%)', #'rgba(0,0,0,0.35%)',
     countrycolor='rgba(27, 40, 34, 0.70%)',
     projection = {"scale": 1.10} # Default Zoom
+)
+
+my_map_layout = dict(
+    # layout.map object on MapLibre maps (same arguments as former layout.mapbox: https://plotly.com/python/reference/layout/mapbox/)
+    style = 'light', # basic, streets, outdoors, light, dark, satellite, satellite-streets
+)
+
+my_map_trace = dict( # https://plotly.com/python-api-reference/generated/plotly.graph_objects.Scattermapbox.html
+    mode='markers',
+    opacity = 0.65,
+    marker = dict( #https://plotly.com/python-api-reference/generated/plotly.graph_objects.scattermapbox.html#plotly.graph_objects.scattermapbox.Marker
+        allowoverlap = True,
+        symbol = 'circle', # https://labs.mapbox.com/maki-icons/
+    ),
+    showlegend = False,
+    hoverlabel = dict(
+        bgcolor = chart_colours_['dark-grey'],
+        bordercolor = 'rgba(0,0,0,0)', # transparent
+        font = dict(
+            color = chart_colours_['grey'],
+            size = 9,
+        )
+    )
 )
 
 # Stile of the color sidebar on choropleth maps - https://plotly.com/python-api-reference/generated/plotly.graph_objects.choropleth.html?highlight=choropleth#module-plotly.graph_objects.choropleth 

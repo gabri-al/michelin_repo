@@ -33,27 +33,22 @@ _filters = html.Div([
             dbc.Col([
                 dcc.Dropdown(options=_Countries, value=[_value_for_any], searchable=True, persistence=True, 
                         persistence_type='session', id='country-dropdown', multi=True)
-            ], width = 10),
-            dbc.Col([], width = 1),
-    ]),
+            ], width = 5),
     # City
-    dbc.Row([
             dbc.Col([html.P(["Select city:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Cities, value=[_value_for_any], searchable=True, persistence=True, 
                         persistence_type='session', id='city-dropdown', multi=True)
-            ], width = 10),
-            dbc.Col([], width = 1),
-    ]),    
+            ], width = 5),
+    ], className = 'filter-row'),    
     # Cuisine Filter
     dbc.Row([
             dbc.Col([html.P(["Select cuisine:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Cuisines, value=[_value_for_any], searchable=True, persistence=True, 
                         persistence_type='session', id='cuisine-dropdown', multi=True)
-            ], width = 10),
-            dbc.Col([], width = 1),
-    ]),
+            ], width = 11)
+    ], className = 'filter-row'),
     # Award (Stars) & Price Filters
     dbc.Row([
             dbc.Col([html.P(["Select Award:"], className = 'filter-p')], width = 1),
@@ -65,8 +60,7 @@ _filters = html.Div([
             dbc.Col([
                 dcc.Dropdown(options=_Prices, value=[1, 2, 3, 4], searchable=True, persistence=True, 
                         persistence_type='session', id='price-dropdown', multi=True)
-            ], width = 4),
-            dbc.Col([], width = 1),
-    ]),
+            ], width = 5)
+    ], className = 'filter-row'),
 
 ], className = 'filter-div')

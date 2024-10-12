@@ -8,7 +8,8 @@ dash.register_page(__name__, path='/', name='Insights', title='Michelin WebApp |
 
 ############################################################################################
 # Import functions, settings
-from assets.fig_layout import my_figlayout, my_fig_geo, colorscale_, my_colorbar, chart_colours_, my_legend, center_map_on_data
+from assets.fig_layout import (my_figlayout, my_fig_geo, my_map_layout, my_map_trace, colorscale_, my_colorbar, 
+                               chart_colours_, my_legend, center_map_on_data)
 from assets.filterbar import _filters, _value_for_any
 
 ############################################################################################
@@ -168,21 +169,37 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     plot_df = silver_df.loc[
         (silver_df['Country'].isin(_countries)) & (silver_df['City'].isin(_cities)) & (silver_df['Cuisine'].isin(_cuisines))
         & (silver_df['Award'].isin(_awards)) & (silver_df['Price_score'].isin(_prices)), :]
-    # print(len(plot_df))
 
     ## Generate main Scatter Map Row1 Col1
     title_r1c1 = 'Restaurants Overview'
     p_r1c1 = ''
-    fig_r1c1 = go.Figure(
-                layout = my_figlayout,
-                data = go.Scattermap( # https://plotly.com/python/scatter-plots-on-maps/ -- Or using Scattergeo
-                    lat = plot_df['Latitude'],
-                    lon = plot_df['Longitude'],
-                    mode='markers',
-                    marker=dict(size=10, color='blue')
-                )
-    )
-    fig_r1c1.update_geos(my_fig_geo)
+    map_elements = {
+        'Awards': ['Selected Restaurants', 'Bib Gourmand', '1 Star', '2 Stars', '3 Stars'],
+        'Sizes': range(8,21,3),
+        'Price_score': [1, 2, 3, 4],
+        'Color': [chart_colours_['gradient-red-02'], chart_colours_['gradient-red-03'], chart_colours_['gradient-red-04'], chart_colours_['gradient-red-05']]
+    }
+    hover_text=[]
+    for idx, row in plot_df.iterrows():
+        hover_text.append(("<i>Name</i>: {}<br>"+
+                           "<i>Address</i>: {}<br>"+
+                           "<i>Cuisine</i>: {}<br>"+
+                           "<i>Award</i>: {}<br>"+
+                           "<i>Price</i>: {}"
+                            "<extra></extra>").format(row['Name'], row['Address'], row['Cuisine'], row['Award'], row['Price']))
+    plot_df['Hovertemplate'] = hover_text
+    fig_r1c1 = go.Figure(layout = my_figlayout)
+    for aw in enumerate(map_elements['Awards']):
+        for pr in enumerate(map_elements['Price_score']):
+            my_map_trace_here = my_map_trace # Importing basic trace layout
+            my_map_trace_here['lat'] = plot_df.loc[(plot_df['Award'] == aw[1]) & (plot_df['Price_score'] == pr[1]), 'Latitude']
+            my_map_trace_here['lon'] = plot_df.loc[(plot_df['Award'] == aw[1]) & (plot_df['Price_score'] == pr[1]), 'Longitude']
+            my_map_trace_here['marker']['size'] = map_elements['Sizes'][aw[0]] # Award determines the marker size
+            my_map_trace_here['marker']['color'] = map_elements['Color'][pr[0]] # Price determines the marker color
+            my_map_trace_here['name'] = aw[1] + ' ' + str('$')*pr[1]
+            my_map_trace_here['hovertemplate'] = plot_df.loc[(plot_df['Award'] == aw[1]) & (plot_df['Price_score'] == pr[1]), 'Hovertemplate']
+            fig_r1c1.add_trace(go.Scattermap(my_map_trace_here))
+    #fig_r1c1.update_maps(my_map_layout)
     if center_map:
         fig_r1c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": extra_zoomed})
 
@@ -312,7 +329,6 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                                                      row['$$$'], row['$$$ Ratio'], row['$$$$'], row['$$$$ Ratio']))
     data_grouped['Hovertemplate'] = hover_text        
     data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False).iloc[:50]
-    #print(data_grouped.head())
     fig_r5c1 = go.Figure(layout=my_figlayout)
     fig_r5c1_traces = dict() # Dictionary with traces names and colours
     for i in enumerate(columns_):

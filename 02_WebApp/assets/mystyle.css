@@ -106,6 +106,10 @@ body {
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;    
 }
 
+.filter-row {
+    margin-bottom: 0.35rem;
+}
+
 .filter-p {
     font-weight: bold;
     margin-top: 0.5rem;
