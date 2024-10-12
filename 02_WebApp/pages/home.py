@@ -158,10 +158,10 @@ def plot_data(_countries):
 )
 def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     ## Filter data
-    center_map = True; zoomed = 1.50; extra_zoomed = zoomed + 10
+    zoom_map = True; zoomed = 5
     if _value_for_any in _countries:
         _countries = list(silver_df['Country'].unique())
-        center_map = False
+        zoom_map = False
     if _value_for_any in _cities:
         _cities = list(silver_df['City'].unique())
     if _value_for_any in _cuisines:
@@ -175,7 +175,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     p_r1c1 = ''
     map_elements = {
         'Awards': ['Selected Restaurants', 'Bib Gourmand', '1 Star', '2 Stars', '3 Stars'],
-        'Sizes': range(8,21,3),
+        'Sizes': range(6,19,3),
         'Price_score': [1, 2, 3, 4],
         'Color': [chart_colours_['gradient-red-02'], chart_colours_['gradient-red-03'], chart_colours_['gradient-red-04'], chart_colours_['gradient-red-05']]
     }
@@ -200,8 +200,9 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
             my_map_trace_here['hovertemplate'] = plot_df.loc[(plot_df['Award'] == aw[1]) & (plot_df['Price_score'] == pr[1]), 'Hovertemplate']
             fig_r1c1.add_trace(go.Scattermap(my_map_trace_here))
     #fig_r1c1.update_maps(my_map_layout)
-    if center_map:
-        fig_r1c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": extra_zoomed})
+    fig_r1c1.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+    if zoom_map:
+        fig_r1c1.update_maps(zoom = zoomed)
 
     ## Generate map Row1 Col1
     title_r2c1 = 'Restaurants by country'
@@ -218,8 +219,9 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                 )
         )
     fig_r2c1.update_geos(my_fig_geo)
-    if center_map:
-        fig_r2c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed})
+    fig_r2c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+    if zoom_map:
+        fig_r2c1.update_geos(projection = {"scale": zoomed})
 
     ## Generate map Row1 Col2
     title_r2c2 = 'Stars by country'
@@ -236,8 +238,9 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                 )
         )
     fig_r2c2.update_geos(my_fig_geo)
-    if center_map:
-        fig_r2c2.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]}, projection = {"scale": zoomed})
+    fig_r2c2.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+    if zoom_map:
+        fig_r2c2.update_geos(projection = {"scale": zoomed})
 
     ## Generate histogram Row3 Col1
     title_r3c1 = 'Popular Cuisines'
