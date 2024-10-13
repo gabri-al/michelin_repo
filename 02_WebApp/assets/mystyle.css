@@ -34,7 +34,7 @@ body {
     overflow-x: hidden;
     font-size: var(--computerpage-font-size);
     /*background-image: linear-gradient(45deg, var(--white) 0%, var(--dark-pink) 100%); https://cssgradient.io/gradient-backgrounds/ */
-    background-image: url("Img/Restaurant-img-03.jpg");
+    background-image: url("Img/Restaurant-img-33.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     color: var(--white);
@@ -43,7 +43,7 @@ body {
 .page-content {
     margin: 3rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
     background-color: rgba(0,0,0,5.0%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 }
 
 .titles-h1 {

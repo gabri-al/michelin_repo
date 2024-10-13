@@ -84,7 +84,8 @@ my_fig_geo = dict(
 
 my_map_layout = dict(
     # layout.map object on MapLibre maps (same arguments as former layout.mapbox: https://plotly.com/python/reference/layout/mapbox/)
-    style = 'light', # basic, streets, outdoors, light, dark, satellite, satellite-streets
+    # Maplibre layouts https://plotly.com/python/tile-map-layers/
+    style = 'carto-positron',
 )
 
 my_map_trace = dict( # https://plotly.com/python-api-reference/generated/plotly.graph_objects.Scattermapbox.html
