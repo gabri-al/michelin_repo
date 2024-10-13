@@ -54,7 +54,7 @@ body {
 
 .titles-h1 {
     font-size: 2.7rem;
-    color: var(--my-palette-01);
+    color: var(--my-palette-02);
     text-shadow: 0 0 2px var(--dark-grey);
     font-weight: bold;
     text-align: center;
@@ -149,7 +149,7 @@ body {
 .titles-h2 {
     font-size: 1.6rem;
     font-weight: bold;
-    color: var(--my-palette-01);
+    color: var(--my-palette-02);
 }
 
 .charts-p {
@@ -175,5 +175,5 @@ body {
 }
 
 .dash-default-spinner > div { /* Loading component */
-    background-image: radial-gradient(circle at 0% 0.5%, rgb(241, 241, 242) 0.1%, rgb(224, 226, 228) 100.2%)
+    background-image: radial-gradient(circle at 0% 0.5%, var(--my-palette-01) 0.1%, var(--my-palette-02) 100.2%)
 }
