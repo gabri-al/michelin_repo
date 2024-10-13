@@ -24,6 +24,12 @@
     --gradient-red-04: #78192E;
     --gradient-red-05: #400C1A;
     --computerpage-font-size: 16px;
+    --my-palette-01: #d69254;
+    --my-palette-02: #cd722d;
+    --my-palette-03: #b16e5d;
+    --my-palette-04: #7a5f96;
+    --my-palette-05: #593e63;
+    --my-palette-06: #0f2a47;
   }
 
 
@@ -48,22 +54,24 @@ body {
 
 .titles-h1 {
     font-size: 2.7rem;
-    color: var(--dark-pink);
+    color: var(--my-palette-01);
+    text-shadow: 0 0 2px var(--dark-grey);
     font-weight: bold;
+    text-align: center;
 }
 
 /* === NAV ===*/
 .nav-row {
     /*background-color: var(--blue-navy);*/
     background-color: rgba(0,0,0,45.0%);
-    backdrop-filter: blur(100px);
+    backdrop-filter: blur(90px);
     z-index: 100;
     position: fixed;
     top: 0%;
     width: 100%;
     height: 3rem;
-    color: var(--white);
-    box-shadow: 0rem 0rem 0.3rem var(--dark-red);
+    color: var(--dark-pink);
+    box-shadow: 0rem 0rem 0.3rem var(--my-palette-01);
 }
 
 .nav-img {
@@ -82,17 +90,17 @@ body {
 }
 
 .nav-div {
-    margin: 0.25rem 0rem 0.2rem 0rem;
+    margin: 0.5rem 0rem 0.2rem 0rem;
     font-size: 1.25rem;
 }
 
 .nav-a {
     text-decoration: None;
-    color: var(--white);
+    color: var(--my-palette-01);
 }
 
 .nav-a:hover {
-    text-shadow: 0rem 0rem 0.12rem var(--white);
+    text-shadow: 0rem 0rem 0.12rem var(--my-palette-01);
 }
 
 .nav-a:active { /* When clicking on the link */
@@ -111,26 +119,29 @@ body {
 }
 
 .filter-p {
+    color: var(--my-palette-01);
+    text-align: right;
     font-weight: bold;
     margin-top: 0.5rem;
     font-style: italic;
+    text-shadow: 0 0 2px var(--dark-grey);
 }
 
 .Select-control, .Select-menu-outer {
     background-color: var(--dark-grey) !important;
     border-width: 1px;
-    border-color: var(--dark-red) !important;
+    border-color: var(--my-palette-01) !important;
     font-size: .8rem;
   }
 
 .Select-input > input {
-    color: var(--grey) !important;
+    color: var(--my-palette-01) !important;
 }
 
 .Select-value-icon, .Select-value-label, .Select-value {
     font-size: .7rem;
-    color: var(--grey) !important;
-    border-color: var(--grey) !important;
+    color: var(--my-palette-01) !important;
+    border-color: var(--my-palette-01) !important;
 }
 
 
@@ -138,9 +149,11 @@ body {
 .titles-h2 {
     font-size: 1.6rem;
     font-weight: bold;
+    color: var(--my-palette-01);
 }
 
 .charts-p {
+    color: var(--my-palette-01);
     font-size: 0.8rem;
     font-style: italic;
     margin: 0rem 0rem 0rem 0rem;
@@ -152,7 +165,7 @@ body {
 }
 
 .chart-div {
-    background-color: rgba(0,0,0,55.0%);
+    background-color: rgba(0,0,0,77.0%);
     border-radius: 11px;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }

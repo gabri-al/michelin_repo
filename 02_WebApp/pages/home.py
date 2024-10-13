@@ -8,8 +8,8 @@ dash.register_page(__name__, path='/', name='Insights', title='Michelin WebApp |
 
 ############################################################################################
 # Import functions, settings
-from assets.fig_layout import (my_figlayout, my_fig_geo, my_map_layout, my_map_trace, colorscale_, my_colorbar, 
-                               chart_colours_, my_legend, center_map_on_data)
+from assets.fig_layout import (country_geojson, my_figlayout, my_map_layout, my_map_trace, colorscale_, my_colorbar, 
+                               chart_colours_, my_legend, center_map_on_data, countries__)
 from assets.filterbar import _filters, _value_for_any
 
 ############################################################################################
@@ -17,6 +17,10 @@ from assets.filterbar import _filters, _value_for_any
 import pandas as pd
 silver_df = pd.read_parquet("data/silver_data.parquet", engine='pyarrow')
 #print(silver_df.columns)
+# Print out any country which is not compatible with names on the geoJson dataset
+for c in silver_df['Country'].unique():
+    if c not in countries__:
+        print("Found an incompatible country: %s" % c)
 
 ############################################################################################
 # Define page objects that don't depends on callbacks
@@ -177,7 +181,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
         'Awards': ['Selected Restaurants', 'Bib Gourmand', '1 Star', '2 Stars', '3 Stars'],
         'Sizes': range(6,19,3),
         'Price_score': [1, 2, 3, 4],
-        'Color': [chart_colours_['gradient-red-02'], chart_colours_['gradient-red-03'], chart_colours_['gradient-red-04'], chart_colours_['gradient-red-05']]
+        'Color': [chart_colours_['my-palette-02'], chart_colours_['my-palette-04'], chart_colours_['my-palette-05'], chart_colours_['my-palette-06']]
     }
     hover_text=[]
     for idx, row in plot_df.iterrows():
@@ -209,19 +213,29 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     p_r2c1 = 'Michelin guide entries count by country'    
     map_df = plot_df.groupby(plot_df['Country']).agg(Res_count = ('Res_ID', 'count')).reset_index()
     fig_r2c1 = go.Figure(
+        layout = my_figlayout,
+        data = go.Choroplethmap(
+            geojson = country_geojson,
+            featureidkey = 'properties.ADMIN',
+            locations = map_df['Country'],
+            z=map_df['Res_count']
+        ))
+    #print(map_df.head())
+    """
+    fig_r2c1 = go.Figure(
                 layout=my_figlayout,
-                data=go.Choropleth( # Note: go.Choropleth doesn't use Maplibre - https://plotly.com/python/tile-map-layers/
-                    locations=map_df['Country'],  # Spatial coordinates
+                data=go.Choroplethmap( # Note: go.Choropleth doesn't use Maplibre - https://plotly.com/python/tile-map-layers/
+                    #locations=map_df['Country'],  # Spatial coordinates
                     z=map_df['Res_count'],  # Data to be color-coded
                     locationmode='country names', 
                     colorscale=colorscale_,  # Color scale for the map
-                    colorbar = my_colorbar
+                    #colorbar = my_colorbar
                 )
         )
-    fig_r2c1.update_geos(my_fig_geo)
     fig_r2c1.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
     if zoom_map:
         fig_r2c1.update_geos(projection = {"scale": zoomed})
+    """
 
     ## Generate map Row1 Col2
     title_r2c2 = 'Stars by country'
@@ -237,7 +251,6 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                     colorbar = my_colorbar
                 )
         )
-    fig_r2c2.update_geos(my_fig_geo)
     fig_r2c2.update_geos(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
     if zoom_map:
         fig_r2c2.update_geos(projection = {"scale": zoomed})
@@ -257,7 +270,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     fig_r3c1 = go.Figure(layout=my_figlayout)
     fig_r3c1_traces = dict() # Dictionary with traces names and colours
     for i in enumerate(columns_):
-        fig_r3c1_traces[i[1]] = 'gradient-red-0' + str( i[0] + 1 )
+        fig_r3c1_traces[i[1]] = 'my-palette-0' + str( i[0] + 2 )
     for key, value in fig_r3c1_traces.items():
         fig_r3c1.add_trace(
             go.Histogram(
@@ -294,7 +307,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
         go.Histogram(
             x=data_grouped['Cuisine_l1'],
             y=data_grouped['Star Ratio'],
-            marker_color=chart_colours_['dark-pink'],
+            marker_color=chart_colours_['my-palette-02'],
             histfunc="sum",
             name='Stars/Restaurants',
             hovertemplate = data_grouped['Hovertemplate'])
@@ -335,7 +348,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     fig_r5c1 = go.Figure(layout=my_figlayout)
     fig_r5c1_traces = dict() # Dictionary with traces names and colours
     for i in enumerate(columns_):
-        fig_r5c1_traces[i[1] + ' Ratio'] = 'gradient-red-0' + str( i[0] + 2 )
+        fig_r5c1_traces[i[1] + ' Ratio'] = 'my-palette-0' + str( i[0] + 3 )
     for key, value in fig_r5c1_traces.items():
         fig_r5c1.add_trace(
             go.Histogram(

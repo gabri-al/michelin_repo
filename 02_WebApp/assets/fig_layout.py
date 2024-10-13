@@ -1,4 +1,17 @@
 import plotly.graph_objects as go
+from urllib.request import urlopen
+import json
+import ssl
+
+###### DOWNLOAD WORLWIDE geoJSON DATASET - https://datahub.io/core/geo-countries#countries
+url_ = 'https://r2.datahub.io/clvyjaryy0000la0cxieg4o8o/main/raw/data/countries.geojson'
+ssl._create_default_https_context = ssl._create_unverified_context # Disabling SSL Verification
+with urlopen(url_) as response:
+    country_geojson = json.load(response)
+## Extract list of valid country IDs form the geojson file (the country standard naming convention is here https://github.com/datasets/country-codes/blob/main/data/country-codes.csv)
+countries__ = []
+for d in country_geojson['features']:
+    countries__.append(d['properties']['ADMIN'])
 
 ###### MAP COLORSCALES
 colorscale_min = '#f9f7f4'
@@ -21,6 +34,12 @@ chart_colours_ = {
     'gradient-red-05': '#400C1A',
     'grey': '#999',
     'dark-grey': '#2C363B',
+    'my-palette-01': '#d69254',
+    'my-palette-02': '#cd722d',
+    'my-palette-03': '#b16e5d',
+    'my-palette-04': '#7a5f96',
+    'my-palette-05': '#593e63',
+    'my-palette-06': '#0f2a47',
 }
 
 ###### FIG LAYOUT
@@ -67,6 +86,7 @@ my_figlayout = go.Layout(
     #geo=dict() # defined below
 )
 
+"""
 my_fig_geo = dict(
     # Map layout through geo parameter - https://plotly.com/python-api-reference/generated/plotly.graph_objects.layout.html#plotly.graph_objects.layout.Geo
     bgcolor='rgba(0,0,0,0)',  # Set to transparent
@@ -81,6 +101,7 @@ my_fig_geo = dict(
     countrycolor='rgba(27, 40, 34, 0.70%)',
     projection = {"scale": 1.10} # Default Zoom
 )
+"""
 
 my_map_layout = dict(
     # layout.map object on MapLibre maps (same arguments as former layout.mapbox: https://plotly.com/python/reference/layout/mapbox/)

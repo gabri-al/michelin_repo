@@ -29,13 +29,13 @@ _Cities.sort()
 _filters = html.Div([
     # Country filter
     dbc.Row([
-            dbc.Col([html.P(["Select country:"], className = 'filter-p')], width = 1),
+            dbc.Col([html.P(["Country:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Countries, value=[_value_for_any], searchable=True, persistence=True, 
                         persistence_type='session', id='country-dropdown', multi=True)
             ], width = 5),
     # City
-            dbc.Col([html.P(["Select city:"], className = 'filter-p')], width = 1),
+            dbc.Col([html.P(["City:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Cities, value=[_value_for_any], searchable=True, persistence=True, 
                         persistence_type='session', id='city-dropdown', multi=True)
@@ -43,7 +43,7 @@ _filters = html.Div([
     ], className = 'filter-row'),    
     # Cuisine Filter
     dbc.Row([
-            dbc.Col([html.P(["Select cuisine:"], className = 'filter-p')], width = 1),
+            dbc.Col([html.P(["Cuisine:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Cuisines, value=[_value_for_any], searchable=True, persistence=True, 
                         persistence_type='session', id='cuisine-dropdown', multi=True)
@@ -51,12 +51,12 @@ _filters = html.Div([
     ], className = 'filter-row'),
     # Award (Stars) & Price Filters
     dbc.Row([
-            dbc.Col([html.P(["Select Award:"], className = 'filter-p')], width = 1),
+            dbc.Col([html.P(["Award:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Awards, value=_Awards, searchable=True, persistence=True, 
                         persistence_type='session', id='award-dropdown', multi=True)
             ], width = 5),
-            dbc.Col([html.P(["Select Price:"], className = 'filter-p')], width = 1),
+            dbc.Col([html.P(["Price:"], className = 'filter-p')], width = 1),
             dbc.Col([
                 dcc.Dropdown(options=_Prices, value=[1, 2, 3, 4], searchable=True, persistence=True, 
                         persistence_type='session', id='price-dropdown', multi=True)
