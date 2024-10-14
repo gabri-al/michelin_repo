@@ -25,6 +25,7 @@ chart_colours_ = {
     'gradient-red-05': '#400C1A',
     'grey': '#999',
     'dark-grey': '#2C363B',
+    'my-palette-00': '#f1c8a1',
     'my-palette-01': '#d69254',
     'my-palette-02': '#cd722d',
     'my-palette-03': '#b16e5d',
@@ -84,12 +85,6 @@ my_map_layout = dict(
     zoom = 1,
 )
 
-my_Choroplethmap_layout = dict(
-    # layout.map object on MapLibre maps (same arguments as former layout.mapbox: https://plotly.com/python/reference/layout/mapbox/)
-    style = 'dark',
-    zoom = 0,
-)
-
 my_map_trace = dict( # https://plotly.com/python-api-reference/generated/plotly.graph_objects.Scattermapbox.html
     mode='markers',
     opacity = 0.65,
@@ -108,7 +103,7 @@ my_map_trace = dict( # https://plotly.com/python-api-reference/generated/plotly.
     )
 )
 
-my_colorscale = [[0, chart_colours_['my-palette-02']], [1, chart_colours_['my-palette-05']]]
+my_colorscale = [[0, chart_colours_['my-palette-00']], [1, chart_colours_['my-palette-05']]]
 
 # Stile of the color sidebar on choropleth maps - https://plotly.com/python-api-reference/generated/plotly.graph_objects.choropleth.html?highlight=choropleth#module-plotly.graph_objects.choropleth 
 my_colorbar2 = go.choroplethmap.ColorBar( # https://plotly.com/python-api-reference/generated/plotly.graph_objects.choroplethmapbox.html#plotly.graph_objects.choroplethmapbox.ColorBar
