@@ -63,4 +63,4 @@ _filters = html.Div([
             ], width = 5)
     ], className = 'filter-row'),
 
-], className = 'filter-div')
+], className = 'filter-div', id = 'filter-div')

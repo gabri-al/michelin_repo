@@ -31,12 +31,19 @@ for c in silver_df['Country_Code_ISO3'].unique():
 # Page layout
 layout = dbc.Container([
     dbc.Row([
-        dbc.Col([
-            html.H1("Data Insights", className='titles-h1')
-        ], width=12)
+        #dbc.Col([
+            #html.H1("Data Insights", className='titles-h1')
+        #], width=12)
     ]),
 
     ## Filters
+    dbc.Row([
+        dbc.Col([
+            html.Button([html.I(className="fa-solid fa-circle-plus me-3 fa-1x")], id='reveal-filters', n_clicks=0, className='my-button'),
+            html.H2("Apply Filters", className='titles-expand-h2'),
+        ], className = 'button-col', width = 11),
+        dbc.Col(width = 1)
+    ], className = 'expanding-title-row'),
     _filters,
 
     ## Maps on Row 1
@@ -63,83 +70,164 @@ layout = dbc.Container([
         ], width = 12)
     ], className = 'chart-row'),   
 
-    ## Maps on Row 3
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Awards Section
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    dbc.Row([
+        dbc.Col([
+            html.Button([html.I(className="fa-solid fa-circle-plus me-3 fa-1x")], id='reveal-awards', n_clicks=0, className='my-button'),
+            html.H2("Insights by Award", className='titles-expand-h2'),
+        ], className = 'button-col', width = 11),
+        dbc.Col(width = 1)
+    ], className = 'expanding-title-row'),
+
+    ## Award 001 - Stars by country
      dbc.Row([
         dbc.Col([
             html.Div([
-                html.H2(id='title-003', className='titles-h2'),
-                html.P(id='p-003', className = 'charts-p'),
+                html.H2(id='award-title-001', className='titles-h2'),
+                html.P(id='award-p-001', className = 'charts-p'),
                 dcc.Loading(id='loading-003', type='default',
-                        children = dcc.Graph(id = 'fig-003'))
+                        children = dcc.Graph(id = 'award-fig-001'))
             ], className = 'chart-div')
         ], width = 12)
-    ], className = 'chart-row'),
+    ], className = 'chart-row', id = 'award-001-row'),    
+    
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Cuisine Section
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    dbc.Row([
+        dbc.Col([
+            html.Button([html.I(className="fa-solid fa-circle-plus me-3 fa-1x")], id='reveal-cuisines', n_clicks=0, className='my-button'),
+            html.H2("Insights by Cuisines", className='titles-expand-h2'),
+        ], className = 'button-col', width = 11),
+        dbc.Col(width = 1)
+    ], className = 'expanding-title-row'),
 
-    ## Maps on Row 4
+    ## Cuisine 001 - Cuisines by country
      dbc.Row([
         dbc.Col([
             html.Div([
-                html.H2(id='title-004', className='titles-h2'),
-                html.P(id='p-004', className = 'charts-p'),
-                dcc.Loading(id='loading-004', type='default',
-                        children = dcc.Graph(id = 'fig-004'))
+                html.H2(id='cuisine-title-001', className='titles-h2'),
+                html.P(id='cuisine-p-001', className = 'charts-p'),
+                dcc.Loading(id='cuisine-loading-001', type='default',
+                        children = dcc.Graph(id = 'cuisine-fig-001'))
             ], className = 'chart-div')
         ], width = 12)
-    ], className = 'chart-row'),
+    ], className = 'chart-row', id = 'cuisine-001-row'),
 
-    ## Maps on Row 5
+    ## Cuisine 002 - Popular Cuisines
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.H2(id='cuisine-title-002', className='titles-h2'),
+                html.P(id='cuisine-p-002', className = 'charts-p'),
+                dcc.Loading(id='cuisine-loading-002', type='default',
+                        children = dcc.Graph(id = 'cuisine-fig-002'))
+            ], className = 'chart-div')
+        ], width = 12)
+    ], className = 'chart-row', id = 'cuisine-002-row'),
+
+    ## Cuisine 003 - Star Propensity by Cuisine
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.H2(id='cuisine-title-003', className='titles-h2'),
+                html.P(id='cuisine-p-003', className = 'charts-p'),
+                dcc.Loading(id='cuisine-loading-003', type='default',
+                        children = dcc.Graph(id = 'cuisine-fig-003'))
+            ], className = 'chart-div')
+        ], width = 12)
+    ], className = 'chart-row', id = 'cuisine-003-row'),
+
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Price Section
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    dbc.Row([
+        dbc.Col([
+            html.Button([html.I(className="fa-solid fa-circle-plus me-3 fa-1x")], id='reveal-prices', n_clicks=0, className='my-button'),
+            html.H2("Insights by Price", className='titles-expand-h2'),
+        ], className = 'button-col', width = 11),
+        dbc.Col(width = 1)
+    ], className = 'expanding-title-row'),
+
+    ## Price 001 - Price Score by Country
      dbc.Row([
         dbc.Col([
             html.Div([
-                html.H2(id='title-005', className='titles-h2'),
-                html.P(id='p-005', className = 'charts-p'),
-                dcc.Loading(id='loading-005', type='default',
-                        children = dcc.Graph(id = 'fig-005'))
+                html.H2(id='price-title-001', className='titles-h2'),
+                html.P(id='price-p-001', className = 'charts-p'),
+                dcc.Loading(id='price-loading-001', type='default',
+                        children = dcc.Graph(id = 'price-fig-001'))
             ], className = 'chart-div')
         ], width = 12)
-    ], className = 'chart-row'),
+    ], className = 'chart-row', id = 'price-001-row'),
 
-    ## Hist on Row 6
+    ## Price 002 - Price Ratio by Cuisine
     dbc.Row([
         dbc.Col([
             html.Div([
-                html.H2(id='title-006', className='titles-h2'),
-                html.P(id='p-006', className = 'charts-p'),
-                dcc.Loading(id='loading_r3c1', type='default',
-                        children = dcc.Graph(id = 'fig-006'))
+                html.H2(id='price-title-002', className='titles-h2'),
+                html.P(id='price-p-002', className = 'charts-p'),
+                dcc.Loading(id='cuisine-loading-004', type='default',
+                        children = dcc.Graph(id = 'price-fig-002'))
             ], className = 'chart-div')
         ], width = 12)
-    ], className = 'chart-row'),
-
-    ## Hist on Row 7
-    dbc.Row([
-        dbc.Col([
-            html.Div([
-                html.H2(id='title-007', className='titles-h2'),
-                html.P(id='p-007', className = 'charts-p'),
-                dcc.Loading(id='loading_r4c1', type='default',
-                        children = dcc.Graph(id = 'fig-007'))
-            ], className = 'chart-div')
-        ], width = 12)
-    ], className = 'chart-row'),
-
-    ## Hist on Row 5
-    dbc.Row([
-        dbc.Col([
-            html.Div([
-                html.H2(id='title-008', className='titles-h2'),
-                html.P(id='p-008', className = 'charts-p'),
-                dcc.Loading(id='loading_r5c1', type='default',
-                        children = dcc.Graph(id = 'fig-008'))
-            ], className = 'chart-div')
-        ], width = 12)
-    ], className = 'chart-row'),    
+    ], className = 'chart-row', id = 'price-002-row'),
 
 ])
 
 ### PAGE CALLBACKS ###############################################################################################################
 
-# Update city dropdown depending on country selection
+##################### UPDATES BASED ON EXPANDING BUTTONS
+### Filters
+@callback(
+        Output(component_id='filter-div', component_property='style'),
+        Input(component_id='reveal-filters', component_property='n_clicks')
+)
+def display_filters(_nclicks):
+    if _nclicks is None or _nclicks == 0 or _nclicks % 2 == 0:
+        return {'display': 'None'}
+    else:
+        return {}
+
+### Award
+@callback(
+        Output(component_id='award-001-row', component_property='style'),
+        Input(component_id='reveal-awards', component_property='n_clicks')
+)
+def display_filters(_nclicks):
+    if _nclicks is None or _nclicks == 0 or _nclicks % 2 == 0:
+        return {'display': 'None'}
+    else:
+        return {}
+
+### Cuisines
+@callback(
+        Output(component_id='cuisine-001-row', component_property='style'),
+        Output(component_id='cuisine-002-row', component_property='style'),
+        Output(component_id='cuisine-003-row', component_property='style'),
+        Input(component_id='reveal-cuisines', component_property='n_clicks')
+)
+def display_filters(_nclicks):
+    if _nclicks is None or _nclicks == 0 or _nclicks % 2 == 0:
+        return {'display': 'None'}, {'display': 'None'}, {'display': 'None'}
+    else:
+        return {}, {}, {}
+
+### Prices
+@callback(
+        Output(component_id='price-001-row', component_property='style'),
+        Output(component_id='price-002-row', component_property='style'),
+        Input(component_id='reveal-prices', component_property='n_clicks')
+)
+def display_filters(_nclicks):
+    if _nclicks is None or _nclicks == 0 or _nclicks % 2 == 0:
+        return {'display': 'None'}, {'display': 'None'}
+    else:
+        return {}, {}
+
+##################### UPDATES ON DROPDOWN LISTS
 @callback(
     Output(component_id='city-dropdown', component_property='options'),
     Input(component_id='country-dropdown', component_property='value')
@@ -155,7 +243,7 @@ def plot_data(_countries):
         _Cities.sort()
     return _Cities
 
-# Update figs
+##################### UPDATES ON FIGS
 @callback(
     # Outputs for Row 1
     Output(component_id='title-001', component_property='children'),
@@ -165,30 +253,34 @@ def plot_data(_countries):
     Output(component_id='title-002', component_property='children'),
     Output(component_id='p-002', component_property='children'),
     Output(component_id='fig-002', component_property='figure'),
-    # Outputs for Row 3
-    Output(component_id='title-003', component_property='children'),
-    Output(component_id='p-003', component_property='children'),
-    Output(component_id='fig-003', component_property='figure'),
-    # Outputs for Row 4
-    Output(component_id='title-004', component_property='children'),
-    Output(component_id='p-004', component_property='children'),
-    Output(component_id='fig-004', component_property='figure'),    
-    # Outputs for Row 5
-    Output(component_id='title-005', component_property='children'),
-    Output(component_id='p-005', component_property='children'),
-    Output(component_id='fig-005', component_property='figure'),
-    # Outputs for Row 6
-    Output(component_id='title-006', component_property='children'),
-    Output(component_id='p-006', component_property='children'),
-    Output(component_id='fig-006', component_property='figure'),
-    # Outputs for Row 7
-    Output(component_id='title-007', component_property='children'),
-    Output(component_id='p-007', component_property='children'),
-    Output(component_id='fig-007', component_property='figure'),   
-    # Outputs for Row 8
-    Output(component_id='title-008', component_property='children'),
-    Output(component_id='p-008', component_property='children'),
-    Output(component_id='fig-008', component_property='figure'),        
+
+    # Outputs for Award 1
+    Output(component_id='award-title-001', component_property='children'),
+    Output(component_id='award-p-001', component_property='children'),
+    Output(component_id='award-fig-001', component_property='figure'),
+
+    # Outputs for Cuisine 1
+    Output(component_id='cuisine-title-001', component_property='children'),
+    Output(component_id='cuisine-p-001', component_property='children'),
+    Output(component_id='cuisine-fig-001', component_property='figure'),
+    # Outputs for Cuisine 2
+    Output(component_id='cuisine-title-002', component_property='children'),
+    Output(component_id='cuisine-p-002', component_property='children'),
+    Output(component_id='cuisine-fig-002', component_property='figure'),
+    # Outputs for Cuisine 3
+    Output(component_id='cuisine-title-003', component_property='children'),
+    Output(component_id='cuisine-p-003', component_property='children'),
+    Output(component_id='cuisine-fig-003', component_property='figure'),   
+
+    # Outputs for Price 1
+    Output(component_id='price-title-001', component_property='children'),
+    Output(component_id='price-p-001', component_property='children'),
+    Output(component_id='price-fig-001', component_property='figure'),
+    # Outputs for Price 2
+    Output(component_id='price-title-002', component_property='children'),
+    Output(component_id='price-p-002', component_property='children'),
+    Output(component_id='price-fig-002', component_property='figure'),        
+    
     # Inputs
     Input(component_id='country-dropdown', component_property='value'),
     Input(component_id='city-dropdown', component_property='value'),
@@ -276,9 +368,12 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     if zoom_map:
         fig_002.update_maps(zoom = zoomed)
 
-    ## Generate map3
-    title_003 = 'Stars by country'
-    p_003 = 'What are the countries with most stars? This map shows the sum of Michelin Stars by country'    
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Awards Section
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ## Award 1
+    award_title_001 = 'Stars by country'
+    award_p_001 = 'What are the countries with most stars? This map shows the sum of Michelin Stars by country'    
     map_df = plot_df.groupby(['Country','Country_Code_ISO3']).agg(Star_sum = ('Stars_score', 'sum')).reset_index().sort_values(by='Star_sum', ascending=False)
     hover_text=[]; rank_ = 1
     for idx, row in map_df.iterrows():
@@ -288,7 +383,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                             "<extra></extra>").format(row['Country'], row['Star_sum'], rank_))
         rank_ += 1
     map_df['Hovertemplate'] = hover_text
-    fig_003 = go.Figure(
+    award_fig_001 = go.Figure(
         layout = my_figlayout,
         data = go.Choroplethmap( # Using same arguments as https://plotly.com/python-api-reference/generated/plotly.graph_objects.Choroplethmapbox.html
             geojson = country_geojson,
@@ -299,14 +394,17 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
             colorbar = my_colorbar2,
             hovertemplate = map_df['Hovertemplate']
         ))
-    fig_003.update_maps(my_map_layout)
-    fig_003.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+    award_fig_001.update_maps(my_map_layout)
+    award_fig_001.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
     if zoom_map:
-        fig_003.update_maps(zoom = zoomed)
+        award_fig_001.update_maps(zoom = zoomed)
 
-    ## Generate map4
-    title_004 = 'Cuisines by country'
-    p_004 = 'What countries have most cuisines? This map shows a score, calculated as the ratio of distinct cuisines by the nr. of restaurants'
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Cuisine Section
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+    ## Cuisine 1
+    cuisine_title_001 = 'Cuisines by country'
+    cuisine_p_001 = 'What countries have most cuisines? This map shows a score, calculated as the ratio of distinct cuisines by the nr. of restaurants'
     cuisine_df1 = plot_df.groupby(['Country','Country_Code_ISO3','Cuisine_l1']).agg(Res_count = ('Res_ID', 'count')).reset_index().rename(columns={"Cuisine_l1": "Cuisine"})
     cuisine_df2 = plot_df.groupby(['Country','Country_Code_ISO3','Cuisine_l2']).agg(Res_count = ('Res_ID', 'count')).reset_index().rename(columns={"Cuisine_l2": "Cuisine"})
     cuisine_df3 = pd.concat([cuisine_df1, cuisine_df2], ignore_index=True)
@@ -326,7 +424,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                            "<extra></extra>").format(row['Country'], row['Cuisine_count'], row['Res_count'], row['Ratio'], rank_))
         rank_ += 1
     map_df['Hovertemplate'] = hover_text
-    fig_004 = go.Figure(
+    cuisine_fig_001 = go.Figure(
         layout = my_figlayout,
         data = go.Choroplethmap( # Using same arguments as https://plotly.com/python-api-reference/generated/plotly.graph_objects.Choroplethmapbox.html
             geojson = country_geojson,
@@ -337,14 +435,89 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
             colorbar = my_colorbar2,
             hovertemplate = map_df['Hovertemplate']
         ))
-    fig_004.update_maps(my_map_layout)
-    fig_004.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+    cuisine_fig_001.update_maps(my_map_layout)
+    cuisine_fig_001.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
     if zoom_map:
-        fig_004.update_maps(zoom = zoomed)
+        cuisine_fig_001.update_maps(zoom = zoomed)
 
-    ## Generate map5
-    title_005 = 'Price Score by Country'
-    p_005 = 'How expensive are different countries? This map shows a score, calculated as a weigthed average of restaurant counts in each price category. A higher scoring country will have more higher-priced restaurants'
+    ## Cuisine 2
+    cuisine_title_002 = 'Popular Cuisines'
+    cuisine_p_002 = 'This barchart shows the total count of restaurants by cuisine split by award type, for the most frequent 50 cuisines'
+    data_grouped = plot_df.groupby(['Cuisine_l1', 'Award']).agg(Count = ('Res_ID', 'count')).reset_index()
+    data_grouped = data_grouped.pivot(columns = 'Award', index = 'Cuisine_l1', values = 'Count').fillna(0).reset_index()
+    zeros_ = [0] * len(data_grouped)
+    columns_ = ['Selected Restaurants', 'Bib Gourmand', '1 Star', '2 Stars', '3 Stars']
+    for c in columns_:
+        if c not in data_grouped.columns:
+            data_grouped[c] = zeros_
+    data_grouped['Restaurant_count'] = data_grouped['1 Star'] + data_grouped['2 Stars'] + data_grouped['3 Stars'] + data_grouped['Bib Gourmand'] + data_grouped['Selected Restaurants']
+    hover_text=[]
+    for idx, row in data_grouped.iterrows():
+        hover_text.append(("<i>Cuisine</i>: {}<br>"+
+                           "<i>Restaurants with 3 Stars</i>: {}<br>"+
+                           "<i>Restaurants with 2 Stars</i>: {}<br>"+
+                           "<i>Restaurants with 1 Star</i>: {}<br>"+
+                           "<i>Bib Gourmand Restaurants</i>: {}<br>"+
+                           "<i>Selected Restaurants</i>: {}"
+                            "<extra></extra>").format(row['Cuisine_l1'], row['3 Stars'], row['2 Stars'], row['1 Star'], row['Bib Gourmand'], row['Selected Restaurants']))
+    data_grouped['Hovertemplate'] = hover_text    
+    data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False).iloc[:50]
+    cuisine_fig_002 = go.Figure(layout=my_figlayout)
+    cuisine_fig_002_traces = dict() # Dictionary with traces names and colours
+    for i in enumerate(columns_):
+        cuisine_fig_002_traces[i[1]] = 'my-palette-0' + str( i[0] + 1 )
+    for key, value in cuisine_fig_002_traces.items():
+        cuisine_fig_002.add_trace(
+            go.Histogram(
+                x=data_grouped['Cuisine_l1'],
+                y=data_grouped[key],
+                marker_color=chart_colours_[value],
+                histfunc="sum",
+                name=key,
+                hovertemplate = data_grouped['Hovertemplate'])
+        )
+    cuisine_fig_002.update_layout(
+        bargap=.6, # gap between bars of adjacent location coordinates
+        barmode='stack',
+        legend = my_legend,
+    )
+
+    ## Cuisine 3
+    cuisine_title_003 = 'Star Propensity by Cuisine'
+    cuisine_p_003 = 'What are the most awarded cuisines? This barchart shows the ratio between the sum of stars and the nr. of restaurants, for the most frequent 50 cuisines'
+    data_grouped = plot_df.groupby(plot_df['Cuisine_l1']).agg(Stars_count = ('Stars_score', 'sum'),
+                                                              Restaurant_count = ('Res_ID', 'count')).reset_index()
+    data_grouped['Star Ratio'] = data_grouped['Stars_count'] / data_grouped['Restaurant_count']
+    data_grouped = data_grouped.loc[data_grouped['Restaurant_count'] >= 10, :] # Filter outliers    
+    data_grouped = data_grouped.sort_values(by = 'Star Ratio', ascending = False).iloc[:50]
+    hover_text=[]
+    for idx, row in data_grouped.iterrows():
+        hover_text.append(("<i>Cuisine</i>: {}<br>"+
+                           "<i>Restaurants Count</i>: {}<br>"+
+                           "<i>Tot Stars</i>: {}<br>"+
+                            "<i>Stars/Restaurant Ratio</i>: {:.2%}"+
+                            "<extra></extra>").format(row['Cuisine_l1'], row['Restaurant_count'], row['Stars_count'], row['Star Ratio']))
+    data_grouped['Hovertemplate'] = hover_text
+    cuisine_fig_003 = go.Figure(layout=my_figlayout)
+    cuisine_fig_003.add_trace(
+        go.Histogram(
+            x=data_grouped['Cuisine_l1'],
+            y=data_grouped['Star Ratio'],
+            marker_color=chart_colours_['my-palette-02'],
+            histfunc="sum",
+            name='Stars/Restaurants',
+            hovertemplate = data_grouped['Hovertemplate'])
+    )
+    cuisine_fig_003.update_layout(
+        bargap=.6, # gap between bars of adjacent location coordinates
+    )
+
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Price Section
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ## Price 1
+    price_title_001 = 'Price Score by Country'
+    price_p_001 = 'How expensive are different countries? This map shows a score, calculated as a weigthed average of restaurant counts in each price category. A higher scoring country will have more higher-priced restaurants'
     data_grouped = plot_df.groupby(['Country','Country_Code_ISO3','Price_score']).agg(Count = ('Res_ID', 'count')).reset_index()
     data_grouped = data_grouped.pivot(columns = 'Price_score', index = ['Country','Country_Code_ISO3'], values = 'Count').fillna(0.).reset_index()
     zeros_ = [0.] * len(data_grouped)
@@ -371,7 +544,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                            "<extra></extra>").format(row['Country'], row['Restaurant_count'], row['$'], row['$$'], row['$$$'], row['$$$$'], row['Price_Score'], rank_))
         rank_ += 1
     map_df['Hovertemplate'] = hover_text
-    fig_005 = go.Figure(
+    price_fig_001 = go.Figure(
         layout = my_figlayout,
         data = go.Choroplethmap( # Using same arguments as https://plotly.com/python-api-reference/generated/plotly.graph_objects.Choroplethmapbox.html
             geojson = country_geojson,
@@ -382,86 +555,14 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
             colorbar = my_colorbar2,
             hovertemplate = map_df['Hovertemplate']
         ))
-    fig_005.update_maps(my_map_layout)
-    fig_005.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
+    price_fig_001.update_maps(my_map_layout)
+    price_fig_001.update_maps(center={"lat": center_map_on_data(plot_df)[0],"lon": center_map_on_data(plot_df)[1]})
     if zoom_map:
-        fig_005.update_maps(zoom = zoomed)    
+        price_fig_001.update_maps(zoom = zoomed)
 
-    ## Generate histogram6
-    title_006 = 'Popular Cuisines'
-    p_006 = 'This barchart shows the total count of restaurants by cuisine split by award type, for the most frequent 50 cuisines'
-    data_grouped = plot_df.groupby(['Cuisine_l1', 'Award']).agg(Count = ('Res_ID', 'count')).reset_index()
-    data_grouped = data_grouped.pivot(columns = 'Award', index = 'Cuisine_l1', values = 'Count').fillna(0).reset_index()
-    zeros_ = [0] * len(data_grouped)
-    columns_ = ['Selected Restaurants', 'Bib Gourmand', '1 Star', '2 Stars', '3 Stars']
-    for c in columns_:
-        if c not in data_grouped.columns:
-            data_grouped[c] = zeros_
-    data_grouped['Restaurant_count'] = data_grouped['1 Star'] + data_grouped['2 Stars'] + data_grouped['3 Stars'] + data_grouped['Bib Gourmand'] + data_grouped['Selected Restaurants']
-    hover_text=[]
-    for idx, row in data_grouped.iterrows():
-        hover_text.append(("<i>Cuisine</i>: {}<br>"+
-                           "<i>Restaurants with 3 Stars</i>: {}<br>"+
-                           "<i>Restaurants with 2 Stars</i>: {}<br>"+
-                           "<i>Restaurants with 1 Star</i>: {}<br>"+
-                           "<i>Bib Gourmand Restaurants</i>: {}<br>"+
-                           "<i>Selected Restaurants</i>: {}"
-                            "<extra></extra>").format(row['Cuisine_l1'], row['3 Stars'], row['2 Stars'], row['1 Star'], row['Bib Gourmand'], row['Selected Restaurants']))
-    data_grouped['Hovertemplate'] = hover_text    
-    data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False).iloc[:50]
-    fig_006 = go.Figure(layout=my_figlayout)
-    fig_006_traces = dict() # Dictionary with traces names and colours
-    for i in enumerate(columns_):
-        fig_006_traces[i[1]] = 'my-palette-0' + str( i[0] + 1 )
-    for key, value in fig_006_traces.items():
-        fig_006.add_trace(
-            go.Histogram(
-                x=data_grouped['Cuisine_l1'],
-                y=data_grouped[key],
-                marker_color=chart_colours_[value],
-                histfunc="sum",
-                name=key,
-                hovertemplate = data_grouped['Hovertemplate'])
-        )
-    fig_006.update_layout(
-        bargap=.6, # gap between bars of adjacent location coordinates
-        barmode='stack',
-        legend = my_legend,
-    )
-
-    ## Generate histogram Row4 Col1
-    title_007 = 'Stars Propensity by Cuisine'
-    p_007 = 'What are the most awarded cuisines? This barchart shows the ratio between the sum of stars and the nr. of restaurants, for the most frequent 50 cuisines'
-    data_grouped = plot_df.groupby(plot_df['Cuisine_l1']).agg(Stars_count = ('Stars_score', 'sum'),
-                                                              Restaurant_count = ('Res_ID', 'count')).reset_index()
-    data_grouped['Star Ratio'] = data_grouped['Stars_count'] / data_grouped['Restaurant_count']
-    data_grouped = data_grouped.loc[data_grouped['Restaurant_count'] >= 10, :] # Filter outliers    
-    data_grouped = data_grouped.sort_values(by = 'Star Ratio', ascending = False).iloc[:50]
-    hover_text=[]
-    for idx, row in data_grouped.iterrows():
-        hover_text.append(("<i>Cuisine</i>: {}<br>"+
-                           "<i>Restaurants Count</i>: {}<br>"+
-                           "<i>Tot Stars</i>: {}<br>"+
-                            "<i>Stars/Restaurant Ratio</i>: {:.2%}"+
-                            "<extra></extra>").format(row['Cuisine_l1'], row['Restaurant_count'], row['Stars_count'], row['Star Ratio']))
-    data_grouped['Hovertemplate'] = hover_text
-    fig_007 = go.Figure(layout=my_figlayout)
-    fig_007.add_trace(
-        go.Histogram(
-            x=data_grouped['Cuisine_l1'],
-            y=data_grouped['Star Ratio'],
-            marker_color=chart_colours_['my-palette-02'],
-            histfunc="sum",
-            name='Stars/Restaurants',
-            hovertemplate = data_grouped['Hovertemplate'])
-    )
-    fig_007.update_layout(
-        bargap=.6, # gap between bars of adjacent location coordinates
-    )
-
-    ## Generate histogram Row5 Col1
-    title_008 = 'Price ratio by Cuisine'
-    p_008 = 'What are the most expensive cuisines? This barchart shows the percentage of restaurants in each price category, for the most frequent 50 cuisines'
+    ## Price 2
+    price_title_002 = 'Price ratio by Cuisine'
+    price_p_002 = 'What are the most expensive cuisines? This barchart shows the percentage of restaurants in each price category, for the most frequent 50 cuisines'
     data_grouped = plot_df.groupby(['Cuisine_l1', 'Price_score']).agg(Count = ('Res_ID', 'count')).reset_index()
     data_grouped = data_grouped.pivot(columns = 'Price_score', index = 'Cuisine_l1', values = 'Count').fillna(0.).reset_index()
     zeros_ = [0.] * len(data_grouped)
@@ -487,12 +588,12 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                                                      row['$$$'], row['$$$ Ratio'], row['$$$$'], row['$$$$ Ratio']))
     data_grouped['Hovertemplate'] = hover_text        
     data_grouped = data_grouped.sort_values(by = 'Restaurant_count', ascending = False).iloc[:50]
-    fig_008 = go.Figure(layout=my_figlayout)
-    fig_008_traces = dict() # Dictionary with traces names and colours
+    price_fig_002 = go.Figure(layout=my_figlayout)
+    price_fig_002_traces = dict() # Dictionary with traces names and colours
     for i in enumerate(columns_):
-        fig_008_traces[i[1] + ' Ratio'] = 'my-palette-0' + str( i[0] + 2 )
-    for key, value in fig_008_traces.items():
-        fig_008.add_trace(
+        price_fig_002_traces[i[1] + ' Ratio'] = 'my-palette-0' + str( i[0] + 2 )
+    for key, value in price_fig_002_traces.items():
+        price_fig_002.add_trace(
             go.Histogram(
                 x=data_grouped['Cuisine_l1'],
                 y=data_grouped[key],
@@ -501,7 +602,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
                 name=key,
                 hovertemplate = data_grouped['Hovertemplate'])
         )
-    fig_008.update_layout(
+    price_fig_002.update_layout(
         bargap=.6, # gap between bars of adjacent location coordinates
         barmode='stack',
         legend = my_legend,
@@ -509,9 +610,9 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
 
     return (title_001, p_001, fig_001,
             title_002, p_002, fig_002, 
-            title_003, p_003, fig_003,
-            title_004, p_004, fig_004,
-            title_005, p_005, fig_005,
-            title_006, p_006, fig_006,
-            title_007, p_007, fig_007,
-            title_008, p_008, fig_008)
+            award_title_001, award_p_001, award_fig_001,
+            cuisine_title_001, cuisine_p_001, cuisine_fig_001,
+            cuisine_title_002, cuisine_p_002, cuisine_fig_002,
+            cuisine_title_003, cuisine_p_003, cuisine_fig_003,
+            price_title_001, price_p_001, price_fig_001,
+            price_title_002, price_p_002, price_fig_002)

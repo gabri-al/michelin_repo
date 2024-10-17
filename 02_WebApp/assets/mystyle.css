@@ -1,19 +1,10 @@
 /* === ANY ELEMENT OVERRIDE === */
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    /*font-family: 'Arial', sans-serif;*/
-    font-family: 'Lato', sans-serif;
-}
-
-/* == COLOURS AS VARIABLES == */
+/* == COLORS AS VARIABLES == */
 :root {
     --white: #f6f6f6;
     --blue-navy: #1b3139ff;
-    /* --grey: #48565F; */
     --grey: #999;
     --dark-grey: #2C363B;
     --dark-red: #3F0716;
@@ -32,18 +23,26 @@
     --my-palette-06: #0f2a47;
   }
 
-
 /* === FULL PAGE ===*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /*font-family: 'Arial', sans-serif;*/
+    font-family: 'Lato', sans-serif;
+    color: var(--my-palette-01);
+}
+
 html,
 body {
     height: 100%;
-    overflow-x: hidden;
     font-size: var(--computerpage-font-size);
     /*background-image: linear-gradient(45deg, var(--white) 0%, var(--dark-pink) 100%); https://cssgradient.io/gradient-backgrounds/ */
     background-image: url("Img/Restaurant-img-33.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     color: var(--white);
+    overflow-x: hidden;
 }
 
 .page-content {
@@ -58,6 +57,44 @@ body {
     text-shadow: 0 0 2px var(--dark-grey);
     font-weight: bold;
     text-align: center;
+}
+
+/* === EXPANDING BUTTONS ===*/
+.expanding-title-row {
+    margin-bottom: 0.75rem;
+}
+
+.titles-h2, .titles-expand-h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--my-palette-02);
+}
+
+.titles-expand-h2 {
+    font-size: 2rem;
+    text-shadow: var(--my-palette-06) 1px 0 0.5rem;
+}
+
+.my-button {
+    padding: 0rem 0rem 0rem 1rem;
+    text-align: center;
+    color: var(--my-palette-02);
+    background-color : rgba(0,0,0,0);
+    border: None;
+}
+
+.my-button:hover > i {
+    box-shadow: 0 0 3rem var(--my-palette-03);
+    color: var(--my-palette-03);
+}
+
+.my-button:active > i {
+    box-shadow: 0 0 4rem var(--my-palette-05);
+    color: var(--my-palette-04);
+  }
+
+.button-col {
+    display: flex;
 }
 
 /* === NAV ===*/
@@ -76,7 +113,7 @@ body {
 
 .nav-img {
     margin: 0.3rem 0rem 0rem 0rem;
-    width: 23%;
+    width: 28%;
 }
 
 .nav-img-col {
@@ -107,15 +144,29 @@ body {
     text-shadow: 0rem 0rem 0.25rem var(--dark-red);
 }   
 
+/* === FOOTER ===*/
+.hr-footer {
+    height: 0.4rem;
+    color: var(--my-palette-01);
+}
+
+.footer {
+    font-size: 0.75rem;
+    color: var(--my-palette-01);
+}
+
 /* === Filtering elements ===*/
 .filter-div {
     font-size: .8rem;
     border-radius: 11px;
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;    
-}
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    background-color: rgba(0,0,0,77.0%);
+    margin-bottom: 0.75rem;
+} 
 
 .filter-row {
-    margin-bottom: 0.35rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
 }
 
 .filter-p {
@@ -144,14 +195,7 @@ body {
     border-color: var(--my-palette-01) !important;
 }
 
-
 /* === Graph style on CSS ===*/
-.titles-h2 {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: var(--my-palette-02);
-}
-
 .charts-p {
     color: var(--my-palette-01);
     font-size: 0.8rem;

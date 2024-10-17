@@ -7,7 +7,7 @@ _pages = [html.A(page["name"], href=page["path"], className = 'nav-a') for page 
 _nav = dbc.Row([
         dbc.Col([], width = 1),
         dbc.Col([
-            html.Img(src="assets/img/Michelin_Logo.png", alt="image", disable_n_clicks = True, className = 'nav-img')
+            html.Img(src="assets/img/Michelin_Logo4.png", alt="image", disable_n_clicks = True, className = 'nav-img')
         ], width = 1, className = 'nav-img-col'),
         dbc.Col([
             dbc.Row([html.P(["Michelin Restaurants", html.Br(), "WebApp"], className = 'nav-p')])

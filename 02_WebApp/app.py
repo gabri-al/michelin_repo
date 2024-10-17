@@ -11,6 +11,7 @@ server = app.server
 ############################################################################################
 # Import shared components
 from assets.navbar import _nav
+from assets.footer import _footer
 
 ############################################################################################
 # App Layout
@@ -24,10 +25,13 @@ app.layout = dbc.Container([
 	## Page content
     dbc.Row([
         dbc.Col([
-            dash.page_container
+            dash.page_container,
+			_footer
 	    ], className = 'page-content', width = 12),
     ]),
+	
     dcc.Store(id='browser-memo', data=dict(), storage_type='session')
+	
 ], fluid=True)
 
 ############################################################################################
