@@ -74,7 +74,7 @@ my_figlayout = go.Layout(
     margin = margin_style,
     xaxis = xaxis_style,
     yaxis = yaxis_style,
-    height = 380,
+    height = 550,
     #geo=dict() # defined below
 )
 

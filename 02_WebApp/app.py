@@ -1,4 +1,4 @@
-from dash import Dash, dcc, callback, Input, Output, State
+from dash import Dash, dcc, callback, Input, Output, State, html
 import dash_bootstrap_components as dbc
 import dash
 from dash.exceptions import PreventUpdate
@@ -12,6 +12,12 @@ server = app.server
 # Import shared components
 from assets.navbar import _nav
 from assets.footer import _footer
+from assets.filterbar import _filters, _value_for_any
+
+############################################################################################
+# Upload data
+import pandas as pd
+silver_df = pd.read_parquet("data/silver_data.parquet", engine='pyarrow')
 
 ############################################################################################
 # App Layout
@@ -22,11 +28,29 @@ app.layout = dbc.Container([
             _nav
         ], width = 12)
     ]),
+
 	## Page content
     dbc.Row([
         dbc.Col([
+             
+            html.Div([
+                ## App Shared Filters
+                dbc.Row([
+                    dbc.Col([
+                        html.Button([html.I(id='reveal-filters-icon')], id='reveal-filters', n_clicks=0, className='my-button'),
+                        html.H2("Apply Filters", className='titles-expand-h2'),
+                    ], className = 'button-col', width = 11),
+                    dbc.Col(width = 1)
+                ], className = 'expanding-title-row'),
+                _filters,
+            ], className = 'container'), # Same class as page content below
+
+            ## Page Content
             dash.page_container,
+
+            ## Footer
 			_footer
+               
 	    ], className = 'page-content', width = 12),
     ]),
 	
@@ -36,6 +60,35 @@ app.layout = dbc.Container([
 
 ############################################################################################
 # Callbacks
+
+##################### UPDATES BASED ON EXPANDING BUTTONS
+### Filters
+@callback(
+        Output(component_id='filter-div', component_property='style'),
+        Output(component_id='reveal-filters-icon', component_property='className'),
+        Input(component_id='reveal-filters', component_property='n_clicks')
+)
+def display_filters(_nclicks):
+    if _nclicks is None or _nclicks == 0 or _nclicks % 2 == 0:
+        return {'display': 'None'}, 'fa-solid fa-filter me-3 fa-1x'
+    else:
+        return {}, 'fa-solid fa-chevron-down me-3 fa-1x'
+    
+##################### UPDATES ON DROPDOWN LISTS
+@callback(
+    Output(component_id='city-dropdown', component_property='options'),
+    Input(component_id='country-dropdown', component_property='value')
+)
+def plot_data(_countries):
+    if _value_for_any in _countries or _countries is None:
+        _Cities = list(silver_df['City'].unique())
+        _Cities.append(_value_for_any)
+        _Cities.sort()
+    else:
+        _Cities = list(silver_df.loc[silver_df['Country'].isin(_countries), 'City'].unique())
+        _Cities.append(_value_for_any)
+        _Cities.sort()
+    return _Cities
 
 ############################################################################################
 # Run App
