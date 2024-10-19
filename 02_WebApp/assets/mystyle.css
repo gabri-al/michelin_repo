@@ -134,6 +134,7 @@ body {
 .nav-a {
     text-decoration: None;
     color: var(--my-palette-01);
+    margin: 0rem 0.65rem 0rem 0rem;
 }
 
 .nav-a:hover {

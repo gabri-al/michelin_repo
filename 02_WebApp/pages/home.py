@@ -4,13 +4,13 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
 
-dash.register_page(__name__, path='/', name='Insights', title='Michelin WebApp | Insights')
+dash.register_page(__name__, path='/', order = 1, name='Insights', title='Michelin WebApp | Insights')
 
 ############################################################################################
 # Import functions, settings
 from assets.fig_layout import (country_geojson, my_figlayout, my_map_layout, my_map_trace, my_colorscale, my_colorbar2,
                                chart_colours_, my_legend, center_map_on_data, countries__)
-from assets.filterbar import _filters, _value_for_any
+from assets.filterbar import _value_for_any
 
 ############################################################################################
 # Upload data
