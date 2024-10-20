@@ -75,7 +75,7 @@ body {
     text-shadow: var(--my-palette-06) 1px 0 0.5rem;
 }
 
-.my-button {
+.my-button, .search-button {
     padding: 0rem 0rem 0rem 1rem;
     text-align: center;
     color: var(--my-palette-02);
@@ -221,4 +221,44 @@ body {
 
 .dash-default-spinner > div { /* Loading component */
     background-image: radial-gradient(circle at 0% 0.5%, var(--my-palette-01) 0.1%, var(--my-palette-02) 100.2%)
+}
+
+/* === Search page ===*/
+.search-bar-row {
+    margin-bottom: 1.5rem;
+}
+
+.search-area {
+    height: 2.5rem;
+    width: 100%;
+    padding: 0.5rem 0rem 0rem 0rem;
+    border: None;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0rem 0rem 0.3rem var(--my-palette-01);
+    background-color: var(--dark-grey) !important;
+    font-size: .9rem;
+}
+
+.search-button {
+    text-align: center;
+    border-radius: 20px;
+    padding: 0rem 0rem 0rem 0rem;
+    width: 65%;
+    height: 2rem;
+    margin-top: 0.10rem;
+    background-color: var(--my-palette-01);
+    color: var(--dark-grey);
+    box-shadow: 0rem 0rem 0.3rem var(--my-palette-01);
+}
+
+.search-button:hover {
+    box-shadow: 0rem 0rem 2rem var(--my-palette-01);
+}
+
+.search-button:active {
+    box-shadow: 0rem 0rem 3rem var(--my-palette-01);
+    background-color: var(--my-palette-03);
+    color: var(--my-palette-06);
+    
 }
