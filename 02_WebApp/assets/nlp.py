@@ -6,7 +6,7 @@ def embed_from_api(sentence_):
     api_url = f"https://api-inference.huggingface.co/models/{model_name}"
 
     # Prepare API call info
-    hf_token = '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'
+    hf_token = None #gitleaks:allow
     headers = {"Authorization": f"Bearer {hf_token}"}
     payload = {
         "inputs": sentence_
