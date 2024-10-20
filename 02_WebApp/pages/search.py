@@ -1,8 +1,9 @@
 import dash
-from dash import html, callback, dcc, Input, Output
+from dash import html, callback, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
+from dash.exceptions import PreventUpdate
 
 dash.register_page(__name__, path='/search', order = 2, name='Search', title='Michelin WebApp | Find Your Restaurant')
 
@@ -36,6 +37,18 @@ layout = dbc.Container([
         #], width=12)
     ]),
 
+    ## Main Search bar
+    dbc.Row([
+        dbc.Col([
+            dcc.Textarea(id = 'search-input', placeholder="Describe the restaurant that you are looking for: cuisine, atmosphere, type of chef, etc.",
+                         className= 'search-area', persistence = True, persistence_type = 'session')            
+        ], width = 10),
+        dbc.Col([
+            html.Button(["Search"], id='search-button', n_clicks=0, className='search-button'),
+        ], className = 'search-bar-row', width = 2)
+    
+    ]),
+
     ## Maps on Row 1
      dbc.Row([
         dbc.Col([
@@ -51,6 +64,26 @@ layout = dbc.Container([
 ])
 
 ### PAGE CALLBACKS ###############################################################################################################
+
+##################### EMBED SEARCH INPUTS
+# Save Search Button Clicks into Store --> this will be part of the main callback!
+@callback(Output('browser-memo', 'data'),
+          Input('search-button', 'n_clicks'),
+          State('browser-memo', 'data'))
+def store_input(n_clicks, store_data):
+    if n_clicks is None or n_clicks == 0:
+        raise PreventUpdate
+    #Initialize
+    if 'search_clicks' in store_data.keys():
+         curr_clicks = store_data['search_clicks']
+    else:
+         curr_clicks = 0
+    #Update
+    if int(n_clicks) != int(curr_clicks):
+         store_data['search_clicks'] = n_clicks
+    else:
+         raise PreventUpdate
+    return store_data
 
 ##################### UPDATES ON FIGS
 @callback(
