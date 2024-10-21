@@ -35,7 +35,7 @@
 
 html,
 body {
-    height: 100%;
+    height: 100vh;
     font-size: var(--computerpage-font-size);
     /*background-image: linear-gradient(45deg, var(--white) 0%, var(--dark-pink) 100%); https://cssgradient.io/gradient-backgrounds/ */
     background-image: url("Img/Restaurant-img-33.jpg");
@@ -153,7 +153,7 @@ body {
 
 .footer {
     font-size: 0.75rem;
-    color: var(--my-palette-01);
+    color: var(--my-palette-01);;
 }
 
 /* === Filtering elements ===*/
@@ -260,5 +260,10 @@ body {
     box-shadow: 0rem 0rem 3rem var(--my-palette-01);
     background-color: var(--my-palette-03);
     color: var(--my-palette-06);
-    
+}
+
+.alert-style {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.8rem 0.2rem 0.8rem;
+    text-align: center;
 }
