@@ -4,16 +4,8 @@
 /* == COLORS AS VARIABLES == */
 :root {
     --white: #f6f6f6;
-    --blue-navy: #1b3139ff;
     --grey: #999;
     --dark-grey: #2C363B;
-    --dark-red: #3F0716;
-    --dark-pink: #c10341;
-    --gradient-red-01: #ECD6DB;
-    --gradient-red-02: #D89CA9;
-    --gradient-red-03: #B22846;
-    --gradient-red-04: #78192E;
-    --gradient-red-05: #400C1A;
     --computerpage-font-size: 16px;
     --my-palette-01: #d69254;
     --my-palette-02: #cd722d;
@@ -99,7 +91,6 @@ body {
 
 /* === NAV ===*/
 .nav-row {
-    /*background-color: var(--blue-navy);*/
     background-color: rgba(0,0,0,45.0%);
     backdrop-filter: blur(90px);
     z-index: 100;
@@ -107,7 +98,6 @@ body {
     top: 0%;
     width: 100%;
     height: 3rem;
-    color: var(--dark-pink);
     box-shadow: 0rem 0rem 0.3rem var(--my-palette-01);
 }
 
@@ -142,7 +132,7 @@ body {
 }
 
 .nav-a:active { /* When clicking on the link */
-    text-shadow: 0rem 0rem 0.25rem var(--dark-red);
+    text-shadow: 0rem 0rem 0.25rem var(--my-palette-01);
 }   
 
 /* === FOOTER ===*/
@@ -273,12 +263,12 @@ body {
     margin: 0.7rem 0rem 0.3rem 0.15rem;
     background-color: rgba(0,0,0,30%); /* Remove background from the underlying card div */
     height: 20rem;
-    overflow: auto;
 }
 
 .card-header {
     text-align: right;
-    background-color: rgba(0,0,0,50%);
+    /*background-color: rgba(0,0,0,50%);*/
+    background-color: var(--dark-grey);
     padding: 0.2rem 0.7rem 0.2rem 0.7rem;
     font-size: 1.15rem;
 }
@@ -286,14 +276,25 @@ body {
 .card-header > a, .card-header > i, .card-header > p {
     text-decoration: None;
     color: var(--my-palette-01);
+}
+
+.card-header > a {
+    text-decoration: underline;
     font-weight: bold;
 }
 
 .card-body {
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--dark-grey) transparent;    
 }
 
 .card-body > p, .card-body > p > i {
-    font-size: 0.85rem;
-    color: var(--my-palette-03);
+    font-size: 0.80rem;
+    color: var(--my-palette-01);
+}
+
+.results-tiles-descr-p {
+    margin-bottom: 0rem;
 }

@@ -54,8 +54,8 @@ def generate_cards(Results_DF, n_per_row):
                 html.I(className = 'fa-solid fa-wheat-awn', style = {'display':'inline'})," ",str(list(Results_DF['Cuisine'])[j_col])
              ]),
              html.P([
-                html.I(className = 'fa-solid fa-comment-dots', style = {'display':'inline'})," ",str(list(Results_DF['Description'])[j_col])
-             ])
+                  html.I(className = 'fa-solid fa-comment-dots', style = {'display':'inline'})," ",str(list(Results_DF['Description'])[j_col])
+             ], className = 'results-tiles-descr-p')
           ]
 
           ##############################

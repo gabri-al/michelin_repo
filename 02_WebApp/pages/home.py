@@ -445,7 +445,6 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     map_df = cuisine_df.merge(res_df, left_on='Country_Code_ISO3', right_on='Country_Code_ISO3', suffixes=('', '_b')).reset_index()
     map_df['Ratio'] = map_df['Cuisine_count'] / map_df['Res_count']
     map_df.sort_values(by='Ratio', ascending=False, inplace=True)
-    #print(len(cuisine_df)); print(len(map_df))
     hover_text=[]; rank_ = 1
     for idx, row in map_df.iterrows():
         hover_text.append(("<i>Country</i>: {}<br>"+
@@ -520,7 +519,8 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     data_grouped = plot_df.groupby(plot_df['Cuisine_l1']).agg(Stars_count = ('Stars_score', 'sum'),
                                                               Restaurant_count = ('Res_ID', 'count')).reset_index()
     data_grouped['Star Ratio'] = data_grouped['Stars_count'] / data_grouped['Restaurant_count']
-    data_grouped = data_grouped.loc[data_grouped['Restaurant_count'] >= 10, :] # Filter outliers    
+    if len(data_grouped) > 50:  # Filter outliers if it makes sense
+        data_grouped = data_grouped.loc[data_grouped['Restaurant_count'] >= 5, :]
     data_grouped = data_grouped.sort_values(by = 'Star Ratio', ascending = False).iloc[:50]
     hover_text=[]
     for idx, row in data_grouped.iterrows():

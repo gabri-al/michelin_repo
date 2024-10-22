@@ -15,14 +15,7 @@ for d in country_geojson['features']:
 
 ###### COLOURS
 chart_colours_ = {
-    'dark-red' : '#3F0716',
-    'dark-pink' : '#c10341',
     'white' : '#f6f6f6',
-    'gradient-red-01': '#ECD6DB',
-    'gradient-red-02': '#D89CA9',
-    'gradient-red-03': '#B22846',
-    'gradient-red-04': '#78192E',
-    'gradient-red-05': '#400C1A',
     'grey': '#999',
     'dark-grey': '#2C363B',
     'my-palette-00': '#f1c8a1',
@@ -116,6 +109,15 @@ my_colorbar2 = go.choroplethmap.ColorBar( # https://plotly.com/python-api-refere
     tickfont=dict(size=10)
 )
 
+my_colorbar3 = go.scattermap.marker.ColorBar(
+    thickness=4,
+    orientation = 'h',
+    x = 0.5,
+    y = -0.1,
+    len = 0.5,
+    tickfont=dict(size=10)
+)
+
 my_legend = {
     "font" : {"size": 9},
     "orientation" : "h",
@@ -154,25 +156,36 @@ my_fig_geo = dict(
 """
 
 # Function to generate a colorscale between two extremes:
+"""
 def create_colorscale(N,
-                      min = [241, 200, 161],
-                      max = [89, 62, 99]):
-    """ Input are RGB (0-255) colors, based on https://www.rapidtables.com/convert/color/hex-to-rgb.html """
+                      min = [241, 200, 161], # my-palette-00
+                      max = [89, 62, 99]): #my-palette-05
+    #Input are RGB (0-255) colors, based on https://www.rapidtables.com/convert/color/hex-to-rgb.html
     min_r = min[0]; min_g = min[1]; min_b = min[2]
     max_r = max[0]; max_g = max[1]; max_b = max[2]
-    incr_r = (min_r - max_r) / N
-    incr_g = (min_g - max_g) / N
-    incr_b = (min_b - max_b) / N
+    incr_r = abs((min_r - max_r)) / N
+    incr_g = abs((min_g - max_g)) / N
+    incr_b = abs((min_b - max_b)) / N
     color_ = [max_r, max_g, max_b]
     colorscale_fin = []
     for i in range(N):
-        new_r = color_[0] + (i * incr_r)
-        new_g = color_[1] + (i * incr_g)
-        new_b = color_[2] + (i * incr_b)
+        if min_r > max_r:
+            new_r = color_[0] + incr_r
+        else:
+            new_r = color_[0] - incr_r
+        if min_g > max_g:
+            new_g = color_[1] + incr_g
+        else:
+            new_g = color_[1] - incr_g
+        if min_b > max_b:
+            new_b = color_[2] + incr_b
+        else:
+            new_b = color_[2] - incr_b
         colorscale_fin.append( str('rgb(') + str(int(new_r)) + ', ' + str(int(new_g)) + ', ' + str(int(new_b)) + ')' )
         color_ = [new_r, new_g, new_b]
     
     return colorscale_fin
+"""
 
 # Function to generate marker sizes:
 def create_marker_sizes(N, min = 5, max = 25):

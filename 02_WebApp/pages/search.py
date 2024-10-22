@@ -1,5 +1,5 @@
 import dash
-from dash import html, callback, dcc, Input, Output, State
+from dash import html, callback, dcc, Input, Output, State, ctx
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
@@ -11,8 +11,8 @@ dash.register_page(__name__, path='/search', order = 2, name='Search', title='Mi
 
 ############################################################################################
 # Import functions, settings
-from assets.fig_layout import (country_geojson, my_figlayout, my_map_layout, my_map_trace, my_colorscale, my_colorbar2,
-                               chart_colours_, my_legend, center_map_on_data, countries__, create_colorscale, create_marker_sizes)
+from assets.fig_layout import (country_geojson, my_figlayout, my_map_layout, my_map_trace, my_colorscale, my_colorbar3,
+                               chart_colours_, my_legend, center_map_on_data, countries__, create_marker_sizes)
 from assets.filterbar import _value_for_any
 from assets.nlp import embed_from_api, generate_cards
 
@@ -108,18 +108,9 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
     ##########################################
     ### Check if Updates are needed --- replace this part based on https://dash.plotly.com/determining-which-callback-input-changed
     ##########################################
-    if n_clicks is None or n_clicks == 0:
+    trigger_ = ctx.triggered_id
+    if trigger_ != 'search-button' or search_query is None or len(search_query) == 0:
         raise PreventUpdate
-    #Initialize
-    if 'search_clicks' in store_data.keys():
-         curr_clicks = store_data['search_clicks']
-    else:
-         curr_clicks = 0
-    #Update
-    if int(n_clicks) != int(curr_clicks):
-         store_data['search_clicks'] = n_clicks
-    else:
-         raise PreventUpdate
 
     ##########################################
     ### Filter Data
@@ -139,10 +130,7 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
 
     ##########################################
     ### Embed Input Query
-    ##########################################
-    if search_query is None or search_query == '':
-        raise PreventUpdate
-    
+    ##########################################  
     try:
         ##########################################
         ### Embed query via API
@@ -173,23 +161,20 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         Final_df = Final_df.sort_values(by = 'Cosine_Similarity_Max', ascending = False).iloc[:TopN]
 
         ## Add colors and sizes
-        coloscale_ = create_colorscale(TopN)
         sizes_ = create_marker_sizes(TopN)
-        Final_df['Color'] = coloscale_
         Final_df['Size'] = sizes_
         Final_df = Final_df.sort_values(by = 'Cosine_Similarity_Max', ascending = True) # Resort the data to plot main restaurants on top
-        #print(Final_df.head(3))
 
         ##########################################
         ### Present Results on Map
         ##########################################
         title_101 = 'Search Results'
-        p_101 = 'Restaurants with description sematically close to the Search Query - Top '+str(TopN)+' Restaurants shown'
+        p_101 = 'Restaurants with description sematically close to the search query (Results are colored based on cosine similarity) - Top '+str(TopN)+' Restaurants shown'
         hover_text=[]; rank_ = TopN
         for idx, row in Final_df.iterrows():
-            hover_text.append(("<i>Name</i>: {}<br>"+
-                            "<i>Address</i>: {}<br>"+
-                            "<i>Rank</i>: {}"+
+            hover_text.append(("<i>Rank</i>: {}<br>"+
+                            "<i>Name</i>: {}<br>"+
+                            "<i>Address</i>: {}"+
                             "<extra></extra>").format(row['Name'], row['Address'], rank_))
             rank_ -= 1
         Final_df['Hovertemplate'] = hover_text
@@ -197,9 +182,11 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         my_map_trace_here = my_map_trace # Importing basic trace layout
         my_map_trace_here['lat'] = Final_df['Latitude']
         my_map_trace_here['lon'] = Final_df['Longitude']
-        my_map_trace_here['marker']['color'] = Final_df['Color']
+        my_map_trace_here['marker']['color'] = Final_df['Cosine_Similarity_Max']
         my_map_trace_here['marker']['size'] = Final_df['Size']
-        my_map_trace_here['marker']['opacity'] = 0.90
+        my_map_trace_here['marker']['opacity'] = 0.98
+        my_map_trace_here['marker']['colorbar'] = my_colorbar3
+        my_map_trace_here['marker']['colorscale'] = my_colorscale
         my_map_trace_here['hovertemplate'] = Final_df['Hovertemplate']
         fig_101.add_trace(go.Scattermap(my_map_trace_here))
         fig_101.update_maps(my_map_layout)
