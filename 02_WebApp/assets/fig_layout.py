@@ -87,10 +87,11 @@ my_map_layout = dict(
 
 my_map_trace = dict( # https://plotly.com/python-api-reference/generated/plotly.graph_objects.Scattermapbox.html
     mode='markers',
-    opacity = 0.65,
+    opacity = 0.70,
     marker = dict( #https://plotly.com/python-api-reference/generated/plotly.graph_objects.scattermapbox.html#plotly.graph_objects.scattermapbox.Marker
         allowoverlap = True,
         symbol = 'circle', # https://labs.mapbox.com/maki-icons/
+        opacity = 0.70,
     ),
     showlegend = False,
     hoverlabel = dict(
@@ -151,3 +152,36 @@ my_fig_geo = dict(
     projection = {"scale": 1.10} # Default Zoom
 )
 """
+
+# Function to generate a colorscale between two extremes:
+def create_colorscale(N,
+                      min = [241, 200, 161],
+                      max = [89, 62, 99]):
+    """ Input are RGB (0-255) colors, based on https://www.rapidtables.com/convert/color/hex-to-rgb.html """
+    min_r = min[0]; min_g = min[1]; min_b = min[2]
+    max_r = max[0]; max_g = max[1]; max_b = max[2]
+    incr_r = (min_r - max_r) / N
+    incr_g = (min_g - max_g) / N
+    incr_b = (min_b - max_b) / N
+    color_ = [max_r, max_g, max_b]
+    colorscale_fin = []
+    for i in range(N):
+        new_r = color_[0] + (i * incr_r)
+        new_g = color_[1] + (i * incr_g)
+        new_b = color_[2] + (i * incr_b)
+        colorscale_fin.append( str('rgb(') + str(int(new_r)) + ', ' + str(int(new_g)) + ', ' + str(int(new_b)) + ')' )
+        color_ = [new_r, new_g, new_b]
+    
+    return colorscale_fin
+
+# Function to generate marker sizes:
+def create_marker_sizes(N, min = 5, max = 25):
+    sizes_ = []
+    value_ = max
+    while value_ > min:
+        sizes_.append(round(value_,2))
+        value_ -= (max-min)/N
+    if len(sizes_) < N:
+        sizes_.append(min)
+
+    return sizes_
