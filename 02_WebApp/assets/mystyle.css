@@ -267,3 +267,33 @@ body {
     padding: 0.2rem 0.8rem 0.2rem 0.8rem;
     text-align: center;
 }
+
+.card {
+    border-color: var(--my-palette-03);
+    margin: 0.7rem 0rem 0.3rem 0.15rem;
+    background-color: rgba(0,0,0,30%); /* Remove background from the underlying card div */
+    height: 20rem;
+    overflow: auto;
+}
+
+.card-header {
+    text-align: right;
+    background-color: rgba(0,0,0,50%);
+    padding: 0.2rem 0.7rem 0.2rem 0.7rem;
+    font-size: 1.15rem;
+}
+
+.card-header > a, .card-header > i, .card-header > p {
+    text-decoration: None;
+    color: var(--my-palette-01);
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+}
+
+.card-body > p, .card-body > p > i {
+    font-size: 0.85rem;
+    color: var(--my-palette-03);
+}

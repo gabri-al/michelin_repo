@@ -106,7 +106,7 @@ layout = dbc.Container([
 def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards, _prices, store_data):
 
     ##########################################
-    ### Check if Updates are needed
+    ### Check if Updates are needed --- replace this part based on https://dash.plotly.com/determining-which-callback-input-changed
     ##########################################
     if n_clicks is None or n_clicks == 0:
         raise PreventUpdate
@@ -134,6 +134,8 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         (silver_df['Country'].isin(_countries)) & (silver_df['City'].isin(_cities)) & (silver_df['Cuisine'].isin(_cuisines))
         & (silver_df['Award'].isin(_awards)) & (silver_df['Price_score'].isin(_prices)), :]    
     embedded_df = rest_descr_df.loc[rest_descr_df['Res_ID'].isin(plot_df['Res_ID']), :]
+    #print('Tot count of embedded_df: %d' % len(embedded_df))
+    #print('Unique restaurants in embedded_df: %d' % len(set(embedded_df['Res_ID']))) # This df has more than 1 record per restaurant
 
     ##########################################
     ### Embed Input Query
@@ -169,7 +171,7 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         TopN = 20
         Final_df = pd.merge(left = plot_df, right = Cosine_sim_df, left_on = 'Res_ID', right_on = 'Res_IDs', how = 'inner')
         Final_df = Final_df.sort_values(by = 'Cosine_Similarity_Max', ascending = False).iloc[:TopN]
-        
+
         ## Add colors and sizes
         coloscale_ = create_colorscale(TopN)
         sizes_ = create_marker_sizes(TopN)
@@ -182,16 +184,13 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         ### Present Results on Map
         ##########################################
         title_101 = 'Search Results'
-        p_101 = 'Restaurants with description sematically close to the Search Query - Top 20 Restaurants shown'
+        p_101 = 'Restaurants with description sematically close to the Search Query - Top '+str(TopN)+' Restaurants shown'
         hover_text=[]; rank_ = TopN
         for idx, row in Final_df.iterrows():
             hover_text.append(("<i>Name</i>: {}<br>"+
                             "<i>Address</i>: {}<br>"+
-                            "<i>Cuisine</i>: {}<br>"+
-                            "<i>Award</i>: {}<br>"+
-                            "<i>Price</i>: {}<br>"+
                             "<i>Rank</i>: {}"+
-                            "<extra></extra>").format(row['Name'], row['Address'], row['Cuisine'], row['Award'], row['Price'], rank_))
+                            "<extra></extra>").format(row['Name'], row['Address'], rank_))
             rank_ -= 1
         Final_df['Hovertemplate'] = hover_text
         fig_101 = go.Figure(layout = my_figlayout)
@@ -211,7 +210,7 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         ##########################################
         Final_df = Final_df.sort_values(by = 'Cosine_Similarity_Max', ascending = False)
         try:
-            res_tiles = generate_cards(Final_df, 4)
+            res_tiles = generate_cards(Final_df, 3)
         except:
             res_tiles = None
 

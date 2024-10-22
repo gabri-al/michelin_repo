@@ -8,7 +8,7 @@ def embed_from_api(sentence_):
     api_url = f"https://api-inference.huggingface.co/models/{model_name}"
 
     # Prepare API call info
-    hf_token = None ###
+    hf_token = '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' ###
     headers = {"Authorization": f"Bearer {hf_token}"}
     payload = {
         "inputs": sentence_
@@ -23,6 +23,8 @@ def embed_from_api(sentence_):
     else:
       embedded_data = None
       print("Failed! Status code: %s" % (response.status_code))
+      if hf_token is None:
+         print("API Personal Access Token missing")
 
     return response.status_code, embedded_data
 
@@ -40,9 +42,6 @@ def generate_cards(Results_DF, n_per_row):
           ##############################
           card_body_ = [
              html.P([
-                html.I(className = 'fa-solid fa-utensils', style = {'display':'inline'})," ",str(list(Results_DF['Name'])[j_col])
-             ]),
-             html.P([
                 html.I(className = 'fa-solid fa-location-pin', style = {'display':'inline'})," ",str(list(Results_DF['Address'])[j_col])
              ]),
              html.P([
@@ -50,16 +49,22 @@ def generate_cards(Results_DF, n_per_row):
              ]),
              html.P([
                 html.I(className = 'fa-solid fa-coins', style = {'display':'inline'})," ",str(list(Results_DF['Price'])[j_col])
-             ])             
+             ]),
+             html.P([
+                html.I(className = 'fa-solid fa-wheat-awn', style = {'display':'inline'})," ",str(list(Results_DF['Cuisine'])[j_col])
+             ]),
+             html.P([
+                html.I(className = 'fa-solid fa-comment-dots', style = {'display':'inline'})," ",str(list(Results_DF['Description'])[j_col])
+             ])
           ]
 
           ##############################
           ### Create card header
           ##############################
           card_header_ = [
-             html.I(className="fa fa-briefcase", style={'display':'inline'}),
+             html.I(className='fa-solid fa-utensils', style={'display':'inline'}),
              html.P(["  #"+str(j_col+1)+" | "], style={'display':'inline'}),
-             html.A("Website", href = str(list(Results_DF['WebsiteUrl'])[j_col]), style={'display':'inline'})
+             html.A(str(list(Results_DF['Name'])[j_col]), href = str(list(Results_DF['WebsiteUrl'])[j_col]), style={'display':'inline'})
           ]
 
           ##############################
