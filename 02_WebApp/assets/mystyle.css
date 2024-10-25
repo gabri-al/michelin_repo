@@ -20,7 +20,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    /*font-family: 'Arial', sans-serif;*/
     font-family: 'Lato', sans-serif;
     color: var(--my-palette-01);
 }
@@ -29,7 +28,6 @@ html,
 body {
     height: 100vh;
     font-size: var(--computerpage-font-size);
-    /*background-image: linear-gradient(45deg, var(--white) 0%, var(--dark-pink) 100%); https://cssgradient.io/gradient-backgrounds/ */
     background-image: url("Img/Restaurant-img-33.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -205,8 +203,12 @@ body {
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.chart-row {
+.chart-row, .search-results-row {
     margin-bottom: 0.9rem;
+}
+
+.search-results-row {
+    height: 100vh;
 }
 
 .dash-default-spinner > div { /* Loading component */

@@ -29,18 +29,14 @@ for c in silver_df['Country_Code_ISO3'].unique():
 rest_descr_df = pd.read_parquet("data/gold_embedded_data.parquet", engine='pyarrow')
 
 ############################################################################################
-# Define page objects that don't depends on callbacks
+# Initialize Graph with restaurant overview
 
 ######################## Generate Data for filters
 
 ############################################################################################
 # Page layout
 layout = dbc.Container([
-    dbc.Row([
-        #dbc.Col([
-            #html.H1("Data Insights", className='titles-h1')
-        #], width=12)
-    ]),
+    dbc.Row([]),
 
     ## Main Search bar
     dbc.Row([
@@ -65,13 +61,13 @@ layout = dbc.Container([
      dbc.Row([
         dbc.Col([
             html.Div([
-                html.H2(id='title-101', className='titles-h2'),
+                html.H2(children='Restaurants Overview', id='title-101', className='titles-h2'),
                 html.P(id='p-101', className = 'charts-p'),
                 dcc.Loading(id='loading-101', type='default', children = dcc.Graph(id = 'fig-101')),
                 html.Div([], id = 'result-tiles')
             ], className = 'chart-div')
         ], width = 12)
-    ], className = 'chart-row'),
+    ], className = 'search-results-row'),
 
 ])
 
