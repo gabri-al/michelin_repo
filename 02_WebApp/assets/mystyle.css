@@ -197,10 +197,14 @@ body {
     margin: 0rem 0.5rem 0rem 0rem;
 }
 
-.chart-div {
+.chart-div, .top-chart-div {
     background-color: rgba(0,0,0,77.0%);
     border-radius: 11px;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.top-chart-div {
+    height: 45rem;
 }
 
 .chart-row, .search-results-row {
@@ -208,7 +212,7 @@ body {
 }
 
 .search-results-row {
-    height: 100vh;
+    margin-bottom: 6rem;
 }
 
 .dash-default-spinner > div { /* Loading component */
@@ -264,7 +268,7 @@ body {
     border-color: var(--my-palette-03);
     margin: 0.7rem 0rem 0.3rem 0.15rem;
     background-color: rgba(0,0,0,30%); /* Remove background from the underlying card div */
-    height: 20rem;
+    height: 18rem;
 }
 
 .card-header {
@@ -285,12 +289,21 @@ body {
     font-weight: bold;
 }
 
-.card-body {
+.card-body, .results-tiles-div {
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--dark-grey) transparent;    
 }
+
+.card-body {
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+}
+
+/*
+.results-tiles-div {
+    height: 30rem;
+} */
 
 .card-body > p, .card-body > p > i {
     font-size: 0.80rem;
@@ -298,5 +311,5 @@ body {
 }
 
 .results-tiles-descr-p {
-    margin-bottom: 0rem;
+    margin-bottom: 0.4rem;
 }

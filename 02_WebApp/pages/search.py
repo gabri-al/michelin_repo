@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from dash.exceptions import PreventUpdate
 import numpy as np
 from numpy.linalg import norm
+import json
 
 dash.register_page(__name__, path='/search', order = 2, name='Search', title='Michelin WebApp | Find Your Restaurant')
 
@@ -20,16 +21,28 @@ from assets.nlp import embed_from_api, generate_cards
 # Upload data
 import pandas as pd
 silver_df = pd.read_parquet("data/silver_data.parquet", engine='pyarrow')
-#print(silver_df.columns)
-# Print out any country which is not compatible with names on the geoJson dataset
-for c in silver_df['Country_Code_ISO3'].unique():
-    if c not in countries__:
-        print("Found an incompatible country: %s" % c)
-
 rest_descr_df = pd.read_parquet("data/gold_embedded_data.parquet", engine='pyarrow')
 
 ############################################################################################
-# Initialize Graph with restaurant overview
+# Initialize Graph with restaurants overview
+title_000 = 'Restaurants Overview'; p_000 = ''; hover_text = []
+base_plot_df = silver_df.copy()
+for idx, row in base_plot_df.iterrows():
+    hover_text.append((
+                    "<i>Name</i>: {}<br>"+
+                    "<i>Address</i>: {}"+
+                    "<extra></extra>").format(row['Name'], row['Address']))
+base_plot_df['Hovertemplate'] = hover_text
+my_map_trace_here = my_map_trace # Importing basic trace layout
+my_map_trace_here['lat'] = base_plot_df['Latitude']
+my_map_trace_here['lon'] = base_plot_df['Longitude']
+my_map_trace_here['marker']['color'] = chart_colours_['my-palette-02']
+my_map_trace_here['marker']['opacity'] = 0.65
+my_map_trace_here['marker']['size'] = 5
+fig_000 = go.Figure(layout = my_figlayout)
+fig_000.add_trace(go.Scattermap(my_map_trace_here))
+fig_000.update_maps(my_map_layout)
+fig_000.update_maps(center={"lat": center_map_on_data(base_plot_df)[0],"lon": center_map_on_data(base_plot_df)[1]})
 
 ######################## Generate Data for filters
 
@@ -61,10 +74,10 @@ layout = dbc.Container([
      dbc.Row([
         dbc.Col([
             html.Div([
-                html.H2(children='Restaurants Overview', id='title-101', className='titles-h2'),
-                html.P(id='p-101', className = 'charts-p'),
-                dcc.Loading(id='loading-101', type='default', children = dcc.Graph(id = 'fig-101')),
-                html.Div([], id = 'result-tiles')
+                html.H2(children=title_000, id='title-101', className='titles-h2'),
+                html.P(children=p_000, id='p-101', className = 'charts-p'),
+                dcc.Loading(id='loading-101', type='default', children = dcc.Graph(figure = fig_000, id = 'fig-101')),
+                html.Div([], id = 'result-tiles', className = 'results-tiles-div')
             ], className = 'chart-div')
         ], width = 12)
     ], className = 'search-results-row'),
