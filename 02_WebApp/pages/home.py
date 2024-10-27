@@ -186,7 +186,9 @@ layout = dbc.Container([
         ], width = 12)
     ], className = 'chart-row', id = 'price-003-row'),
 
-    ## Checker for page init
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
+    ### ### ### ### ### Checker for page init
+    ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
     dbc.Row([dbc.Col(html.P("Page Loading", id = 'init-checker'))], style = {'display':'None'}) # Invisible row to check for page opening
 
 ])

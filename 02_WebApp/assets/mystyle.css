@@ -209,7 +209,7 @@ body {
 }
 
 .search-results-row {
-    margin-bottom: 6rem;
+    margin-bottom: 2rem;
 }
 
 .dash-default-spinner > div { /* Loading component */
@@ -268,7 +268,7 @@ body {
     height: 18rem;
 }
 
-.card-header {
+.card-header, .card-header-highlighted {
     text-align: right;
     /*background-color: rgba(0,0,0,50%);*/
     background-color: var(--dark-grey);
@@ -281,30 +281,52 @@ body {
     color: var(--my-palette-01);
 }
 
-.card-header > a {
+.card-header > a, .card-header-highlighted > a {
     text-decoration: underline;
     font-weight: bold;
 }
 
-.card-body, .results-tiles-div {
+.card-header-highlighted {
+    background-color: var(--my-palette-05);
+    color: var(--my-palette-01) !important;
+}
+.card-header-highlighted > a, .card-header-highlighted > i, .card-header-highlighted > p {
+    text-decoration: None;
+    color: var(--my-palette-01) !important;
+}
+
+.card-body, .card-body-highlighted, .results-tiles-div {
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--dark-grey) transparent;    
+    scrollbar-color: var(--dark-grey) transparent;
+    overflow-x: hidden;
 }
 
-.card-body {
+.results-tiles-div {
+    height: 40rem;
+}
+
+.results-tiles-div-empty {
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
 }
 
-/*
-.results-tiles-div {
-    height: 30rem;
-} */
+.card-body, .card-body-highlighted {
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+}
 
 .card-body > p, .card-body > p > i {
     font-size: 0.80rem;
     color: var(--my-palette-01);
+}
+
+.card-body-highlighted {
+    background-color: var(--my-palette-05);
+}
+
+.card-body-highlighted > p, .card-body-highlighted > p > i {
+    font-size: 0.80rem;
+    color: var(--my-palette-01) !important;
 }
 
 .results-tiles-descr-p {

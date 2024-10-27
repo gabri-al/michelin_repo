@@ -71,8 +71,8 @@ def generate_cards(Results_DF, n_per_row):
           ### Create card object
           ##############################
           card_ = dbc.Card([
-             dbc.CardHeader(card_header_, id = str(list(Results_DF['Res_ID'])[j_col])+'-header'),
-             dbc.CardBody(card_body_, id = str(list(Results_DF['Res_ID'])[j_col])+'-body')
+             dbc.CardHeader(card_header_, id = str(j_col+1)+'-header'),
+             dbc.CardBody(card_body_, id = str(j_col+1)+'-body')
           ])
 
           # Append as new column
