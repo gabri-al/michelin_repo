@@ -1,5 +1,5 @@
 import dash
-from dash import html, callback, dcc, Input, Output, ctx
+from dash import html, callback, dcc, Input, Output, ctx, State
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
 import pandas as pd
@@ -11,7 +11,7 @@ dash.register_page(__name__, path='/', order = 1, name='Insights', title='Michel
 ############################################################################################
 # Import functions, settings
 from assets.fig_layout import (country_geojson, my_figlayout, my_map_layout, my_map_trace, my_colorscale, my_colorbar2,
-                               chart_colours_, my_legend, center_map_on_data, countries__)
+                               chart_colours_, my_legend, center_map_on_data)
 from assets.filterbar import _value_for_any
 
 ############################################################################################
@@ -53,7 +53,7 @@ layout = dbc.Container([
                 html.P(id='p-002', className = 'charts-p'),
                 dcc.Loading(id='loading-002', type='default',
                         children = dcc.Graph(id = 'fig-002'))
-            ], className = 'top-chart-div')
+            ], className = 'chart-div')
         ], width = 12)
     ], className = 'chart-row'),
 
@@ -184,7 +184,10 @@ layout = dbc.Container([
                         children = dcc.Graph(id = 'price-fig-003'))
             ], className = 'chart-div')
         ], width = 12)
-    ], className = 'chart-row', id = 'price-003-row'),    
+    ], className = 'chart-row', id = 'price-003-row'),
+
+    ## Checker for page init
+    dbc.Row([dbc.Col(html.P("Page Loading", id = 'init-checker'))], style = {'display':'None'}) # Invisible row to check for page opening
 
 ])
 
@@ -276,7 +279,9 @@ def display_price_section(_nclicks):
     # Outputs for Price 3
     Output(component_id='price-title-003', component_property='children'),
     Output(component_id='price-p-003', component_property='children'),
-    Output(component_id='price-fig-003', component_property='figure'),            
+    Output(component_id='price-fig-003', component_property='figure'),
+    # Checker for page loading
+    Output(component_id='init-checker', component_property='children'),
     
     # Inputs
     Input(component_id='country-dropdown', component_property='value'),
@@ -285,17 +290,23 @@ def display_price_section(_nclicks):
     Input(component_id='award-dropdown', component_property='value'),
     Input(component_id='price-dropdown', component_property='value'),
     Input(component_id='submit-button', component_property='n_clicks'),
-
-    prevent_initial_call=True
+    State(component_id='init-checker', component_property='children')
 )
-def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
+def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks, init_checker_):
 
     ##########################################
     ### Check if Updates are needed --- https://dash.plotly.com/determining-which-callback-input-changed
     ##########################################
+    if init_checker_ == 'Page Loading':
+        isLoading = True # Page is opening (app initializing or page transitioned)
+    else:
+        isLoading = False # Page loaded already
+    
     trigger_ = ctx.triggered_id
-    if trigger_ != 'submit-button':
+    if trigger_ != 'submit-button' and not isLoading:
         raise PreventUpdate
+    
+    init_checker_ = 'Page Loaded Already'
 
     ##########################################
     ### Filter Data
@@ -355,8 +366,8 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
     #     fig_001.update_maps(zoom = zoomed)
 
     ## Generate map2
-    title_002 = 'Restaurants by country'
-    p_002 = 'What countries have the most resturants? This map counts Michelin guide entries by country'    
+    title_002 = 'Restaurants by Country'
+    p_002 = 'Which countries have the most restaurants? This map counts Michelin Guide entries by country.'
     map_df = plot_df.groupby(['Country','Country_Code_ISO3']).agg(Res_count = ('Res_ID', 'count')).reset_index().sort_values(by='Res_count', ascending=False)
     hover_text=[]; rank_ = 1
     for idx, row in map_df.iterrows():
@@ -386,8 +397,8 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
     ### ### ### ### ### Awards Section
     ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
     ## Award 1
-    award_title_001 = 'Stars by country'
-    award_p_001 = 'What are the countries with most stars? This map shows the sum of Michelin Stars by country'    
+    award_title_001 = 'Stars by Country'
+    award_p_001 = 'Which countries have the most stars? This map shows the total number of Michelin stars by country.'
     map_df = plot_df.groupby(['Country','Country_Code_ISO3']).agg(Star_sum = ('Stars_score', 'sum')).reset_index().sort_values(by='Star_sum', ascending=False)
     hover_text=[]; rank_ = 1
     for idx, row in map_df.iterrows():
@@ -414,8 +425,8 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
         award_fig_001.update_maps(zoom = zoomed)
     
     ## Award 2
-    award_title_002 = 'Star Propensity by country'
-    award_p_002 = 'Where do restaurants get awarded more? This map shows the ratio of Michelin Stars over Nr. of Restaurants, by country'    
+    award_title_002 = 'Star Propensity by Country'
+    award_p_002 = 'Where do restaurants receive more awards? This map shows the ratio of Michelin stars to the number of restaurants by country.'
     map_df = plot_df.groupby(['Country','Country_Code_ISO3']).agg(Res_count = ('Res_ID', 'count'), Star_sum = ('Stars_score', 'sum')).reset_index()
     map_df['Star_Ratio'] = map_df['Star_sum'] / map_df['Res_count']
     map_df.sort_values(by='Star_Ratio', ascending=False, inplace=True)
@@ -449,8 +460,8 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
     ### ### ### ### ### Cuisine Section
     ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
     ## Cuisine 1
-    cuisine_title_001 = 'Cuisines by country'
-    cuisine_p_001 = 'What countries have most cuisines? This map shows a score, calculated as the ratio of distinct cuisines by the nr. of restaurants'
+    cuisine_title_001 = 'Cuisines by Country'
+    cuisine_p_001 = 'Which countries have the most cuisines? This map shows a score calculated as the ratio of distinct cuisines to the number of restaurants.'
     cuisine_df1 = plot_df.groupby(['Country','Country_Code_ISO3','Cuisine_l1']).agg(Res_count = ('Res_ID', 'count')).reset_index().rename(columns={"Cuisine_l1": "Cuisine"})
     cuisine_df2 = plot_df.groupby(['Country','Country_Code_ISO3','Cuisine_l2']).agg(Res_count = ('Res_ID', 'count')).reset_index().rename(columns={"Cuisine_l2": "Cuisine"})
     cuisine_df3 = pd.concat([cuisine_df1, cuisine_df2], ignore_index=True)
@@ -487,7 +498,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
 
     ## Cuisine 2
     cuisine_title_002 = 'Popular Cuisines'
-    cuisine_p_002 = 'This barchart shows the total count of restaurants by cuisine split by award type, for the most frequent 50 cuisines'
+    cuisine_p_002 = ' This bar chart shows the total count of restaurants by cuisine, split by award type, for the 50 most frequent cuisines.'
     data_grouped = plot_df.groupby(['Cuisine_l1', 'Award']).agg(Count = ('Res_ID', 'count')).reset_index()
     data_grouped = data_grouped.pivot(columns = 'Award', index = 'Cuisine_l1', values = 'Count').fillna(0).reset_index()
     zeros_ = [0] * len(data_grouped)
@@ -529,7 +540,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
 
     ## Cuisine 3
     cuisine_title_003 = 'Star Propensity by Cuisine'
-    cuisine_p_003 = 'Which cuisines are the most awarded? This barchart shows the ratio between the sum of stars and the nr. of restaurants, for the most frequent 50 cuisines'
+    cuisine_p_003 = 'Which cuisines are the most awarded? This bar chart shows the ratio between the total number of stars and the number of restaurants for the 50 most frequent cuisines.'
     data_grouped = plot_df.groupby(plot_df['Cuisine_l1']).agg(Stars_count = ('Stars_score', 'sum'),
                                                               Restaurant_count = ('Res_ID', 'count')).reset_index()
     data_grouped['Star Ratio'] = data_grouped['Stars_count'] / data_grouped['Restaurant_count']
@@ -563,7 +574,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
     ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### 
     ## Price 1
     price_title_001 = 'Price Score by Country'
-    price_p_001 = 'How expensive are different countries? This map shows a score, calculated as a weigthed average of restaurant counts in each price category. A higher scoring country will have more higher-priced restaurants'
+    price_p_001 = 'How expensive are different countries? This map shows a score calculated as a weighted average of restaurant counts in each price category. A country with a higher score will have more higher-priced restaurants.'
     data_grouped = plot_df.groupby(['Country','Country_Code_ISO3','Price_score']).agg(Count = ('Res_ID', 'count')).reset_index()
     data_grouped = data_grouped.pivot(columns = 'Price_score', index = ['Country','Country_Code_ISO3'], values = 'Count').fillna(0.).reset_index()
     zeros_ = [0.] * len(data_grouped)
@@ -608,7 +619,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
 
     ## Price 2
     price_title_002 = 'Price Category by Cuisine'
-    price_p_002 = 'Which cuisines are the most expensive? This barchart shows the percentage of restaurants in each price category, for the most frequent 50 cuisines'
+    price_p_002 = 'Which cuisines are the most expensive? This bar chart shows the percentage of restaurants in each price category for the 50 most frequent cuisines.'
     data_grouped = plot_df.groupby(['Cuisine_l1', 'Price_score']).agg(Count = ('Res_ID', 'count')).reset_index()
     data_grouped = data_grouped.pivot(columns = 'Price_score', index = 'Cuisine_l1', values = 'Count').fillna(0.).reset_index()
     zeros_ = [0.] * len(data_grouped)
@@ -656,7 +667,7 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
 
     ## Price 3
     price_title_003 = 'Price Category by Award'
-    price_p_003 = 'Are top-awarded restaurants the most expensive? This barchart shows the percentage of restaurants in each price category, by award'
+    price_p_003 = 'Are top-awarded restaurants the most expensive? This bar chart shows the percentage of restaurants in each price category by award.'
     data_grouped = plot_df.groupby(['Award', 'Price_score']).agg(Count = ('Res_ID', 'count')).reset_index()
     data_grouped = data_grouped.pivot(columns = 'Price_score', index = 'Award', values = 'Count').fillna(0.).reset_index()
     zeros_ = [0.] * len(data_grouped)
@@ -713,4 +724,5 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
             cuisine_title_003, cuisine_p_003, cuisine_fig_003,
             price_title_001, price_p_001, price_fig_001,
             price_title_002, price_p_002, price_fig_002,
-            price_title_003, price_p_003, price_fig_003)
+            price_title_003, price_p_003, price_fig_003,
+            init_checker_)

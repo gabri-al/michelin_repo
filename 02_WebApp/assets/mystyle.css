@@ -51,7 +51,8 @@ body {
 
 /* === EXPANDING BUTTONS ===*/
 .expanding-title-row {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.05rem;
+    margin-top: 0.3rem;
 }
 
 .titles-h2, .titles-expand-h2 {
@@ -197,18 +198,14 @@ body {
     margin: 0rem 0.5rem 0rem 0rem;
 }
 
-.chart-div, .top-chart-div {
+.chart-div {
     background-color: rgba(0,0,0,77.0%);
     border-radius: 11px;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.top-chart-div {
-    height: 45rem;
-}
-
 .chart-row, .search-results-row {
-    margin-bottom: 0.9rem;
+    margin-bottom: 1.5rem;
 }
 
 .search-results-row {
