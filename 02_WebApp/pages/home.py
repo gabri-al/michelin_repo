@@ -1,6 +1,7 @@
 import dash
-from dash import html, callback, dcc, Input, Output
+from dash import html, callback, dcc, Input, Output, ctx
 import dash_bootstrap_components as dbc
+from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.graph_objects as go
 import json
@@ -282,10 +283,23 @@ def display_price_section(_nclicks):
     Input(component_id='city-dropdown', component_property='value'),
     Input(component_id='cuisine-dropdown', component_property='value'),
     Input(component_id='award-dropdown', component_property='value'),
-    Input(component_id='price-dropdown', component_property='value')
+    Input(component_id='price-dropdown', component_property='value'),
+    Input(component_id='submit-button', component_property='n_clicks'),
+
+    prevent_initial_call=True
 )
-def plot_data(_countries, _cities, _cuisines, _awards, _prices):
-    ## Filter data
+def plot_data(_countries, _cities, _cuisines, _awards, _prices, n_clicks):
+
+    ##########################################
+    ### Check if Updates are needed --- https://dash.plotly.com/determining-which-callback-input-changed
+    ##########################################
+    trigger_ = ctx.triggered_id
+    if trigger_ != 'submit-button':
+        raise PreventUpdate
+
+    ##########################################
+    ### Filter Data
+    ##########################################
     zoom_map = True; zoomed = 1
     if _value_for_any in _countries:
         _countries = list(silver_df['Country'].unique())
@@ -297,6 +311,10 @@ def plot_data(_countries, _cities, _cuisines, _awards, _prices):
     plot_df = silver_df.loc[
         (silver_df['Country'].isin(_countries)) & (silver_df['City'].isin(_cities)) & (silver_df['Cuisine'].isin(_cuisines))
         & (silver_df['Award'].isin(_awards)) & (silver_df['Price_score'].isin(_prices)), :]
+
+    ##########################################
+    ### Generate Charts
+    ##########################################
 
     ## Generate main Scatter Map1
     # title_001 = 'Restaurants Overview'

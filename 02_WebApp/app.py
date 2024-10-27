@@ -12,7 +12,7 @@ server = app.server
 # Import shared components
 from assets.navbar import _nav
 from assets.footer import _footer
-from assets.filterbar import _filters, _value_for_any
+from assets.filterbar import _filters, _value_for_any, _filters_insights, _filters_search
 
 ############################################################################################
 # Upload data
@@ -29,21 +29,17 @@ app.layout = dbc.Container([
         ], width = 12)
     ]),
 
+    ## Page Location to determine current URL
+    dcc.Location(
+         id = 'page-location'
+    ),
+
 	## Page content
     dbc.Row([
         dbc.Col([
              
-            html.Div([
-                ## App Shared Filters
-                dbc.Row([
-                    dbc.Col([
-                        html.Button([html.I(id='reveal-filters-icon')], id='reveal-filters', n_clicks=0, className='my-button'),
-                        html.H2("Apply Filters", className='titles-expand-h2'),
-                    ], className = 'button-col', width = 11),
-                    dbc.Col(width = 1)
-                ], className = 'expanding-title-row'),
-                _filters,
-            ], className = 'container'), # Same class as page content below
+            html.Div(children = [],
+            className = 'container', id = 'app-filter-div'), # Same class as page content below
 
             ## Page Content
             dash.page_container,
@@ -61,12 +57,38 @@ app.layout = dbc.Container([
 ############################################################################################
 # Callbacks
 
+##################### UPDATE FILTER DIV DEPENDING ON PAGE URL
+@callback(
+    Output(component_id='app-filter-div', component_property='children'),
+    Output(component_id='app-filter-div', component_property='style'),
+    Input(component_id='page-location', component_property='pathname')
+)
+def create_filters(path_):
+    ## Create a first row with the expanding button
+    _expanding_row = dbc.Row([
+        dbc.Col([
+            html.Button([html.I(id='reveal-filters-icon')], id='reveal-filters', n_clicks=0, className='my-button'),
+            html.H2("Apply Filters", className='titles-expand-h2'),
+        ], className = 'button-col', width = 11),
+        dbc.Col(width = 1)
+    ], className = 'expanding-title-row')
+    ## Create return object
+    if 'search' in path_:
+        filter_div_fin = [_expanding_row, dbc.Row([_filters_search])]
+        return filter_div_fin, {}
+    elif 'info' in path_:
+        filter_div_fin = [_expanding_row, dbc.Row([_filters_insights])]
+        return filter_div_fin, {'display': 'None'}
+    else:
+        filter_div_fin = [_expanding_row, dbc.Row([_filters_insights])]
+        return filter_div_fin, {}
+
 ##################### UPDATES BASED ON EXPANDING BUTTONS
 ### Filters
 @callback(
-        Output(component_id='filter-div', component_property='style'),
-        Output(component_id='reveal-filters-icon', component_property='className'),
-        Input(component_id='reveal-filters', component_property='n_clicks')
+    Output(component_id='filter-div', component_property='style'),
+    Output(component_id='reveal-filters-icon', component_property='className'),
+    Input(component_id='reveal-filters', component_property='n_clicks')
 )
 def display_filters(_nclicks):
     if _nclicks is None or _nclicks == 0 or _nclicks % 2 == 0:

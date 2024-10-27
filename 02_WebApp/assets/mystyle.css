@@ -65,7 +65,7 @@ body {
     text-shadow: var(--my-palette-06) 1px 0 0.5rem;
 }
 
-.my-button, .search-button {
+.my-button, .submit-button {
     padding: 0rem 0rem 0rem 1rem;
     text-align: center;
     color: var(--my-palette-02);
@@ -236,7 +236,7 @@ body {
     font-size: .9rem;
 }
 
-.search-button {
+.submit-button {
     text-align: center;
     border-radius: 20px;
     padding: 0rem 0rem 0rem 0rem;
@@ -248,11 +248,11 @@ body {
     box-shadow: 0rem 0rem 0.3rem var(--my-palette-01);
 }
 
-.search-button:hover {
+.submit-button:hover {
     box-shadow: 0rem 0rem 2rem var(--my-palette-01);
 }
 
-.search-button:active {
+.submit-button:active {
     box-shadow: 0rem 0rem 3rem var(--my-palette-01);
     background-color: var(--my-palette-03);
     color: var(--my-palette-06);

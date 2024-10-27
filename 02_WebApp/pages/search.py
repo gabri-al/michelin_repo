@@ -58,7 +58,7 @@ layout = dbc.Container([
                          className= 'search-area', persistence = True, persistence_type = 'session')            
         ], width = 10),
         dbc.Col([
-            html.Button(["Search"], id='search-button', n_clicks=0, className='search-button'),
+            html.Button(["Search"], id='submit-button', n_clicks=0, className='submit-button'),
         ], className = 'search-bar-row', width = 2)
     
     ]),
@@ -82,15 +82,20 @@ layout = dbc.Container([
         ], width = 12)
     ], className = 'search-results-row'),
 
+     dbc.Row([
+        dbc.Col([], width = 2),
+        dbc.Col([html.P([], id = 'clicks-p')], width = 8),
+        dbc.Col([], width = 2)
+    
+     ])
+
 ])
 
 ### PAGE CALLBACKS ###############################################################################################################
 
-##################### EMBED SEARCH INPUTS
-# Save Search Button Clicks into Store
+##################### SEMANTIC SEARCH
 @callback(
           ## Search Embeddings
-          Output(component_id='browser-memo', component_property='data'),
           Output(component_id='alert-col', component_property='children'),
           ## Map Output
           Output(component_id='title-101', component_property='children'),
@@ -100,7 +105,7 @@ layout = dbc.Container([
           Output(component_id='result-tiles', component_property='children'),
 
           ## Search Inputs
-          Input(component_id='search-button', component_property='n_clicks'),
+          Input(component_id='submit-button', component_property='n_clicks'),
           Input(component_id='search-input', component_property='value'),
 
           ## Filter Inputs
@@ -109,16 +114,14 @@ layout = dbc.Container([
           Input(component_id='cuisine-dropdown', component_property='value'),
           Input(component_id='award-dropdown', component_property='value'),
           Input(component_id='price-dropdown', component_property='value'),
-
-          State(component_id='browser-memo', component_property='data'),
           prevent_initial_call=True)
-def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards, _prices, store_data):
+def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards, _prices):
 
     ##########################################
-    ### Check if Updates are needed --- replace this part based on https://dash.plotly.com/determining-which-callback-input-changed
+    ### Check if Updates are needed --- https://dash.plotly.com/determining-which-callback-input-changed
     ##########################################
     trigger_ = ctx.triggered_id
-    if trigger_ != 'search-button' or search_query is None or len(search_query) == 0:
+    if trigger_ != 'submit-button' or search_query is None or len(search_query) == 0:
         raise PreventUpdate
 
     ##########################################
@@ -196,6 +199,7 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
         my_map_trace_here['marker']['opacity'] = 0.98
         my_map_trace_here['marker']['colorbar'] = my_colorbar3
         my_map_trace_here['marker']['colorscale'] = my_colorscale
+        my_map_trace_here['customdata'] = Final_df['Res_ID']
         my_map_trace_here['hovertemplate'] = Final_df['Hovertemplate']
         fig_101.add_trace(go.Scattermap(my_map_trace_here))
         fig_101.update_maps(my_map_layout)
@@ -212,13 +216,29 @@ def search_input(n_clicks, search_query, _countries, _cities, _cuisines, _awards
 
     except:
         embed_response = dbc.Alert(
-            children=['Error! Calling the embedding API returned this response code: ', str(api_response)], color='danger', class_name='alert-style') 
+            children=['Error! Calling the embedding API returned this response code: ', str(api_response)], color='danger', class_name='alert-style')
+        title_101 = None; p_101 = None; fig_101 = None; res_tiles = None
 
     return (
         ## Search Embeddings
-        store_data, embed_response,
+        embed_response,
         ## Map Output
         title_101, p_101, fig_101,
         ## Result Tiles Output
         res_tiles
         )
+
+##################### CLICKS ON MAP
+@callback(
+          ## Search Embeddings
+          Output(component_id='clicks-p', component_property='children'),
+
+          ## Map Click Inputs
+          Input(component_id='fig-101', component_property='clickData'),
+          Input(component_id='title-101', component_property='children'),
+          prevent_initial_call=True)
+def search_input(clicks_, title_):
+    if clicks_ is None or title_ != 'Search Results':
+        raise PreventUpdate
+    
+    return str(clicks_)
