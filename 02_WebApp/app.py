@@ -73,15 +73,16 @@ def create_filters(path_):
         dbc.Col(width = 1)
     ], className = 'expanding-title-row')
     ## Create return object
-    if 'search' in path_:
-        filter_div_fin = [_expanding_row, dbc.Row([_filters_search])]
+    if 'insights' in path_:
+        filter_div_fin = [_expanding_row, dbc.Row([_filters_insights])]
         return filter_div_fin, {}
     elif 'info' in path_:
         filter_div_fin = [_expanding_row, dbc.Row([_filters_insights])]
         return filter_div_fin, {'display': 'None'}
     else:
-        filter_div_fin = [_expanding_row, dbc.Row([_filters_insights])]
+        filter_div_fin = [_expanding_row, dbc.Row([_filters_search])]
         return filter_div_fin, {}
+
 
 ##################### UPDATES BASED ON EXPANDING BUTTONS
 ### Filters

@@ -50,7 +50,7 @@ body {
 }
 
 /* === EXPANDING BUTTONS ===*/
-.expanding-title-row {
+.expanding-title-row, .info-title-row {
     margin-bottom: 1.05rem;
     margin-top: 0.3rem;
 }

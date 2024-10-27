@@ -8,7 +8,7 @@ import numpy as np
 from numpy.linalg import norm
 import json
 
-dash.register_page(__name__, path='/search', order = 2, name='Search', title='Michelin WebApp | Find Your Restaurant')
+dash.register_page(__name__, path='/', order = 1, name='Search', title='Michelin WebApp | Find Your Restaurant')
 
 ############################################################################################
 # Import functions, settings

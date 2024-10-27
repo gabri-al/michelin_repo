@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import json
 
-dash.register_page(__name__, path='/', order = 1, name='Insights', title='Michelin WebApp | Insights')
+dash.register_page(__name__, path='/insights', order = 2, name='Insights', title='Michelin WebApp | Insights')
 
 ############################################################################################
 # Import functions, settings
@@ -27,11 +27,7 @@ silver_df = pd.read_parquet("data/silver_data.parquet", engine='pyarrow')
 ############################################################################################
 # Page layout
 layout = dbc.Container([
-    dbc.Row([
-        #dbc.Col([
-            #html.H1("Data Insights", className='titles-h1')
-        #], width=12)
-    ]),
+    dbc.Row([]),
 
     ## Maps on Row 1
     # dbc.Row([
