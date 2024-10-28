@@ -138,10 +138,12 @@ body {
 
 .nav-a:hover {
     text-shadow: 0rem 0rem 0.12rem var(--my-palette-01);
+    color: var(--my-palette-03);
 }
 
 .nav-a:active { /* When clicking on the link */
     text-shadow: 0rem 0rem 0.25rem var(--my-palette-01);
+    color: var(--my-palette-03);
 }   
 
 /* === FOOTER ===*/
@@ -150,7 +152,7 @@ body {
     color: var(--my-palette-01);
 }
 
-.footer {
+.footer, .footer-info {
     font-size: 0.75rem;
     color: var(--my-palette-01);;
 }

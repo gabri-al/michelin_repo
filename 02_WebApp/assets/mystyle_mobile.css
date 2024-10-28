@@ -1,0 +1,35 @@
+/* === MOBILE STYLE ANY SCREEN ===*/
+@media only screen and (max-width: 1025px) {
+	
+    /* === FULL PAGE ===*/
+    html, body {
+        font-size: 8px;
+        background-size: auto contain;
+        background-position-y: center;
+        background-position-x: 90%;
+    }
+
+    .nav-img {
+        margin: 0.3rem 0rem 0rem 0rem;
+        width: 45%;
+    }
+
+    .body {
+        height: 100vh;
+    }
+
+    .footer-info {
+        height: 40vh;
+    }
+
+}
+
+/* === MOBILE STYLE SMALL SCREENS PORTRAIT MODE ===*/
+@media only screen and (min-width: 0px) and (max-width: 500px) {
+
+    .nav-img {
+        margin: 0.3rem 0rem 0rem 0rem;
+        width: 75%;
+    }
+
+}

@@ -113,6 +113,17 @@ def plot_data(_countries):
         _Cities.sort()
     return _Cities
 
+##################### UPDATES FOOTER CLASS FOR INFO PAGE (SHORTER)
+@callback(
+    Output(component_id='footer-div', component_property='className'),
+    Input(component_id='page-location', component_property='pathname')
+)
+def plot_data(path_):
+    if 'info' in path_:
+        return 'footer-info'
+    else:
+        return 'footer'
+
 ############################################################################################
 # Run App
 if __name__ == '__main__':
