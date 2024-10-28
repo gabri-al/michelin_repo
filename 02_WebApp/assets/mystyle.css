@@ -35,17 +35,27 @@ body {
     overflow-x: hidden;
 }
 
+body {
+    scrollbar-width: thin;
+    overflow: auto;
+    scrollbar-color: var(--dark-grey) rgba(0,0,0,77.0%);
+    overflow-x: hidden;
+}
+
 .page-content {
     margin: 3rem 0rem 0rem 0rem; /* Margin in order to leave space to the navbar below */
     background-color: rgba(0,0,0,5.0%);
     backdrop-filter: blur(8px);
 }
 
-.titles-h1 {
+.titles-h1, .titles-h1-info {
     font-size: 2.7rem;
     color: var(--my-palette-02);
-    text-shadow: 0 0 2px var(--dark-grey);
+    text-shadow: var(--my-palette-06) 1px 0 0.5rem;
     font-weight: bold;
+}
+
+.titles-h1 {
     text-align: center;
 }
 
@@ -198,7 +208,7 @@ body {
     margin: 0rem 0.5rem 0rem 0rem;
 }
 
-.chart-div {
+.chart-div, .info-div {
     background-color: rgba(0,0,0,77.0%);
     border-radius: 11px;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -331,4 +341,22 @@ body {
 
 .results-tiles-descr-p {
     margin-bottom: 0.4rem;
+}
+
+/* === Info page ===*/
+.info-p {
+    font-size: 1.5;
+    margin: 1rem 1rem 1rem 1rem;
+    color: var(--my-palette-01) !important;
+}
+
+.info-p > a {
+    text-decoration: none;
+    text-decoration: underline;
+    font-style: italic;
+    color: var(--my-palette-01) !important;
+}
+
+.info-div {
+    padding-left: 1rem;
 }
