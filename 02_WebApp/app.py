@@ -17,7 +17,7 @@ from assets.filterbar import _filters, _value_for_any, _filters_insights, _filte
 ############################################################################################
 # Upload data
 import pandas as pd
-silver_df = pd.read_parquet("data/silver_data.parquet", engine='pyarrow')
+silver_df = pd.read_parquet("data/silver_data.parquet", engine='pyarrow') ## parquet engine switched to fastparquet to save disk space on pythonanywhere
 
 ############################################################################################
 # App Layout
