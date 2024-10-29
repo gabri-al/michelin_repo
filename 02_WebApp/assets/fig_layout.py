@@ -8,9 +8,15 @@ import ssl
 # ssl._create_default_https_context = ssl._create_unverified_context # Disabling SSL Verification
 # with urlopen(url_) as response:
 #     country_geojson = json.load(response)
+###### or LOCAL FILE
 path_ = 'data/countries.geojson'
 with open(path_) as f:
     country_geojson = json.load(f)
+###### or Raw data on GitHub
+path_ = 'data/countries.geojson'
+with open(path_) as f:
+    country_geojson = json.load(f)
+
 
 ## Extract list of valid country IDs form the geojson file (the country standard naming convention is here https://github.com/datasets/country-codes/blob/main/data/country-codes.csv)
 countries__ = []
