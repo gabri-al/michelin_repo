@@ -12,10 +12,6 @@ import ssl
 path_ = 'data/countries.geojson'
 with open(path_) as f:
     country_geojson = json.load(f)
-###### or Raw data on GitHub
-path_ = 'data/countries.geojson'
-with open(path_) as f:
-    country_geojson = json.load(f)
 
 
 ## Extract list of valid country IDs form the geojson file (the country standard naming convention is here https://github.com/datasets/country-codes/blob/main/data/country-codes.csv)
