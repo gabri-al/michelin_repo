@@ -10,7 +10,8 @@ Results are displayed in interactive tiles which gets highlighted depending on t
 
 #### Insights
 The Insights page presents pre-built maps and charts, based on KPIs that can be extracted from the dataset.
-Insights are organized in the following sections:
+
+Insights, targeting specific KPIs mentioned above each figure, are organized in the following sections:
 - Restaurants by Country
 - Insights by Award, showing: stars and star propensity by country
 - Insights by Cuisines, showing: Cuisines by Country, Popular Cuisines, Star Propensity by Cuisine
