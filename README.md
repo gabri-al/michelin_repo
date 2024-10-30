@@ -1,5 +1,5 @@
 ## Michelin Restaurant WebApp
-This multi-page webapp offers two main functionalities, with data based on this Michelin Restaurant [dataset](https://www.kaggle.com/datasets/ngshiheng/michelin-guide-restaurants-2021)
+This multi-page webapp, deployed [here](https://webapp3dash.pythonanywhere.com/), offers two main functionalities, with data based on this Michelin Restaurant [dataset](https://www.kaggle.com/datasets/ngshiheng/michelin-guide-restaurants-2021)
 
 #### Semantic Search
 The Search page allows users to look for restaurants based on a search query and some optional filters.
